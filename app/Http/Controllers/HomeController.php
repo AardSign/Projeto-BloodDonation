@@ -35,8 +35,10 @@ class HomeController extends Controller
         }
     }
 
+    
     public function profileadmin()
     {
         return view('user.profileadmin');
     }
 }
+
