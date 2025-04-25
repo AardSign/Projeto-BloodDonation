@@ -3,20 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 Route::get('/',[HomeController::class,'index']);
 
 Route::get('/home',[HomeController::class,'redirect']);
@@ -34,3 +21,5 @@ Route::middleware([
 
 Route::get('/add_donor_view',[AdminController::class,'addview']);
 Route::post('/upload_donor', [AdminController::class, 'upload']);
+Route::get('/administrador',[HomeController::class,'profileadmin']);
+Route::get('/doadores',[HomeController::class,'profiledoador']);

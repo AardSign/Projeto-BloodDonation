@@ -13,7 +13,7 @@
                 </div>
                 <div class="profile-name">
                   <h5 class="mb-0 font-weight-normal">Admin</h5>
-                  <span>Administrator</span>
+                  <span>Administrador</span>
                 </div>
               </div>
               <a href="#" id="profile-dropdown" data-bs-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
@@ -25,7 +25,7 @@
                     </div>
                   </div>
                   <div class="preview-item-content">
-                    <p class="preview-subject ellipsis mb-1 text-small">Account settings</p>
+                    <p class="preview-subject ellipsis mb-1 text-small">Configurações da Conta</p>
                   </div>
                 </a>
                 <div class="dropdown-divider"></div>
@@ -36,7 +36,7 @@
                     </div>
                   </div>
                   <div class="preview-item-content">
-                    <p class="preview-subject ellipsis mb-1 text-small">Change Password</p>
+                    <p class="preview-subject ellipsis mb-1 text-small">senha tempóraria</p>
                   </div>
                 </a>
                 <div class="dropdown-divider"></div>
@@ -47,7 +47,7 @@
                     </div>
                   </div>
                   <div class="preview-item-content">
-                    <p class="preview-subject ellipsis mb-1 text-small">To-do list</p>
+                    <p class="preview-subject ellipsis mb-1 text-small">Lista de Tarefas</p>
                   </div>
                 </a>
               </div>
@@ -59,7 +59,7 @@
               <span class="menu-icon">
                 <i class="mdi mdi-file-document-box"></i>
               </span>
-              <span class="menu-title">Add Donors</span>
+              <span class="menu-title">Adicionar Doadores</span>
             </a>
           </li>
         </ul>
