@@ -1,6 +1,6 @@
 <div class="page-section" id="donors">
     <div class="container">
-      <h1 class="text-center mb-5 wow fadeInUp">Donors</h1>
+      <h1 class="text-center mb-5 wow fadeInUp">Doadores</h1>
 
       <div class="row">
   @foreach($donors as $donor)

@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-// use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Donor;
 
@@ -15,10 +14,10 @@ class HomeController extends Controller
     {
         if(Auth::id())
         {
-            if(Auth::user()->usertype=='0')
+            if(Auth::user()->usertype == '0')
             {
-                $donors = donor::all();
-                return view('user.home',compact('donors'));
+                $donors = Donor::all();
+                return view('user.home', compact('donors'));
             }
             else
             {
@@ -30,18 +29,22 @@ class HomeController extends Controller
             return redirect()->back();
         }
     }
+
     public function index()
     {
         if(Auth::id())
         {
             return redirect('home');
         }
-        
         else
         {
+            $donors = Donor::all();
+            return view('user.home', compact('donors'));
+        }
+    }
 
-        $donors = donor::all();
-
-        return view('user.home',compact('donors'));
-        }}
+    public function profileadmin()
+    {
+        return view('user.profileadmin');
+    }
 }

@@ -30,15 +30,15 @@
                   <span class="count bg-success"></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
-                  <h6 class="p-3 mb-0">Messages</h6>
+                  <h6 class="p-3 mb-0">Mensagens</h6>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item preview-item">
                     <div class="preview-thumbnail">
                       <img src="admin/assets/images/faces/face4.jpg" alt="image" class="rounded-circle profile-pic">
                     </div>
                     <div class="preview-item-content">
-                      <p class="preview-subject ellipsis mb-1">Mark send you a message</p>
-                      <p class="text-muted mb-0"> 1 Minutes ago </p>
+                      <p class="preview-subject ellipsis mb-1">Mark te enviou uma mensagem</p>
+                      <p class="text-muted mb-0"> 1 Minuto atrás </p>
                     </div>
                   </a>
                   <div class="dropdown-divider"></div>
@@ -47,8 +47,8 @@
                       <img src="admin/assets/images/faces/face2.jpg" alt="image" class="rounded-circle profile-pic">
                     </div>
                     <div class="preview-item-content">
-                      <p class="preview-subject ellipsis mb-1">Cregh send you a message</p>
-                      <p class="text-muted mb-0"> 15 Minutes ago </p>
+                      <p class="preview-subject ellipsis mb-1">Cregh te enviou uma mensagem</p>
+                      <p class="text-muted mb-0"> 15 minutos atrás </p>
                     </div>
                   </a>
                   <div class="dropdown-divider"></div>
@@ -57,12 +57,12 @@
                       <img src="admin/assets/images/faces/face3.jpg" alt="image" class="rounded-circle profile-pic">
                     </div>
                     <div class="preview-item-content">
-                      <p class="preview-subject ellipsis mb-1">Profile picture updated</p>
-                      <p class="text-muted mb-0"> 18 Minutes ago </p>
+                      <p class="preview-subject ellipsis mb-1">Foto de perfil atualizada</p>
+                      <p class="text-muted mb-0"> 18 minutos atrás </p>
                     </div>
                   </a>
                   <div class="dropdown-divider"></div>
-                  <p class="p-3 mb-0 text-center">4 new messages</p>
+                  <p class="p-3 mb-0 text-center">4 novas mensagens</p>
                 </div>
               </li>
               <li class="nav-item dropdown border-left">
@@ -71,7 +71,7 @@
                   <span class="count bg-danger"></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
-                  <h6 class="p-3 mb-0">Notifications</h6>
+                  <h6 class="p-3 mb-0">Notificações</h6>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item preview-item">
                     <div class="preview-thumbnail">
@@ -80,8 +80,8 @@
                       </div>
                     </div>
                     <div class="preview-item-content">
-                      <p class="preview-subject mb-1">Event today</p>
-                      <p class="text-muted ellipsis mb-0"> Just a reminder that you have an event today </p>
+                      <p class="preview-subject mb-1">Evento</p>
+                      <p class="text-muted ellipsis mb-0"> Lembrete de Evento para hoje </p>
                     </div>
                   </a>
                   <div class="dropdown-divider"></div>
@@ -92,8 +92,8 @@
                       </div>
                     </div>
                     <div class="preview-item-content">
-                      <p class="preview-subject mb-1">Settings</p>
-                      <p class="text-muted ellipsis mb-0"> Update dashboard </p>
+                      <p class="preview-subject mb-1">Configurações</p>
+                      <p class="text-muted ellipsis mb-0">Atualização de configurações</p>
                     </div>
                   </a>
                   <div class="dropdown-divider"></div>
@@ -104,12 +104,12 @@
                       </div>
                     </div>
                     <div class="preview-item-content">
-                      <p class="preview-subject mb-1">Launch Admin</p>
-                      <p class="text-muted ellipsis mb-0"> New admin wow! </p>
+                      <p class="preview-subject mb-1">Administrador</p>
+                      <p class="text-muted ellipsis mb-0"> Novo Admin! </p>
                     </div>
                   </a>
                   <div class="dropdown-divider"></div>
-                  <p class="p-3 mb-0 text-center">See all notifications</p>
+                  <p class="p-3 mb-0 text-center">VeR todas as notificações</p>
                 </div>
               </li>
               <x-app-layout>
