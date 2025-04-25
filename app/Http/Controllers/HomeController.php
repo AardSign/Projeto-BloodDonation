@@ -12,32 +12,23 @@ class HomeController extends Controller
 {
     public function redirect()
     {
-        if(Auth::id())
-        {
-            if(Auth::user()->usertype == '0')
-            {
+        if (Auth::id()) {
+            if (Auth::user()->usertype == '0') {
                 $donors = Donor::all();
                 return view('user.home', compact('donors'));
-            }
-            else
-            {
+            } else {
                 return view('admin.home');
             }
-        }
-        else
-        {
+        } else {
             return redirect()->back();
         }
     }
 
     public function index()
     {
-        if(Auth::id())
-        {
+        if (Auth::id()) {
             return redirect('home');
-        }
-        else
-        {
+        } else {
             $donors = Donor::all();
             return view('user.home', compact('donors'));
         }
