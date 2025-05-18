@@ -76,7 +76,7 @@ public function atualizarUsuario(Request $request, $id)
     return redirect('/usuarios')->with('message', 'Usuário atualizado com sucesso!');
 }
 
-
+//seu comentário aqui -->
 
 public function excluirUsuario($id)
 {
