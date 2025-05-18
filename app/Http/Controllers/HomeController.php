@@ -11,18 +11,19 @@ use App\Models\Donor;
 class HomeController extends Controller
 {
     public function redirect()
-    {
-        if (Auth::id()) {
-            if (Auth::user()->usertype == '0') {
-                $donors = Donor::all();
-                return view('user.home', compact('donors'));
-            } else {
-                return view('admin.home');
-            }
+{
+    if (Auth::id()) {
+        if (Auth::user()->usertype == '0') {
+            $donors = Donor::all();
+            return view('user.home', compact('donors'));
         } else {
-            return redirect()->back();
+            
+            return redirect('add_donor_view');
         }
+    } else {
+        return redirect()->back();
     }
+}
 
     public function index()
     {

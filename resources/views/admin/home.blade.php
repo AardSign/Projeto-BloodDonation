@@ -7,7 +7,7 @@
   <body>
 
       @include('admin.sidebar')
-
+    
       @include('admin.navbar')
 
       

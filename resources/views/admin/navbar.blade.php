@@ -2,7 +2,7 @@
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar p-0 fixed-top d-flex flex-row">
           <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
-            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="admin/assets/images/logo-mini.svg" alt="logo" /></a>
+            <a class="navbar-brand brand-logo-mini" href="index.html"> <img src="admin/assets/images/logo-mini.png" alt="logo" /></a>
           </div>
           <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
             <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -10,8 +10,8 @@
             </button>
             <ul class="navbar-nav w-100">
               <li class="nav-item w-100">
-                <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
-                  <input type="text" class="form-control" placeholder="Search">
+                <form action="{{ url('/buscar') }}" method="GET" class="form-inline" style="margin-left: auto;">
+                  <input class="form-control mr-sm-2" type="search" name="q" placeholder="Buscar doador..." aria-label="Search" required>
                 </form>
               </li>
             </ul>
@@ -34,7 +34,7 @@
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item preview-item">
                     <div class="preview-thumbnail">
-                      <img src="admin/assets/images/faces/face4.jpg" alt="image" class="rounded-circle profile-pic">
+                      <img src="{{ asset('admin/assets/images/faces/face4.jpg') }}" alt="image" class="rounded-circle profile-pic">
                     </div>
                     <div class="preview-item-content">
                       <p class="preview-subject ellipsis mb-1">Mark te enviou uma mensagem</p>
@@ -44,7 +44,7 @@
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item preview-item">
                     <div class="preview-thumbnail">
-                      <img src="admin/assets/images/faces/face2.jpg" alt="image" class="rounded-circle profile-pic">
+                     <img src="{{ asset('admin/assets/images/faces/face2.jpg') }}" alt="image" class="rounded-circle profile-pic">
                     </div>
                     <div class="preview-item-content">
                       <p class="preview-subject ellipsis mb-1">Cregh te enviou uma mensagem</p>
@@ -54,7 +54,7 @@
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item preview-item">
                     <div class="preview-thumbnail">
-                      <img src="admin/assets/images/faces/face3.jpg" alt="image" class="rounded-circle profile-pic">
+                      <img src="{{ asset('admin/assets/images/faces/face3.jpg') }}" alt="image" class="rounded-circle profile-pic">
                     </div>
                     <div class="preview-item-content">
                       <p class="preview-subject ellipsis mb-1">Foto de perfil atualizada</p>

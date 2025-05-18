@@ -37,64 +37,64 @@
 @endif
 
 
+  <form action="{{ url('upload_donor') }}" method="POST" enctype="multipart/form-data">
+    @csrf
 
-        <form action="{{url('upload_donor')}}" method="POST" enctype="multipart/form-data">
+    <div style="padding:15px;">
+        <label>Nome</label>
+        <input type="text" name="name" required>
+    </div>
 
-        @csrf
-        <div style="padding:15px;">
-        <label>Nome do Doador </label>
-        <input type="text" style="color:black" name="name" placeholder="Escreva seu nome" required> 
-        </div> 
+    <div style="padding:15px;">
+        <label>Email</label>
+        <input type="email" name="email" required>
+    </div>
 
-        <div style="padding:15px;">
-        <label>Número de Telefone</label>
-        <input type="text" style="color:black" name="number" placeholder="Escreva seu número" required>
-        </div> 
+    <div style="padding:15px;">
+        <label>Telefone</label>
+        <input type="text" name="phone" required placeholder="(11) 91234-5678">
+    </div>
 
-        <div style="padding:15px;">
-        <label>Cidade </label>
-        <input type="text" style="color:black" name="place" placeholder="Escreva sua cidade" required>
-        </div>
+    <div style="padding:15px;">
+        <label>Endereço</label>
+        <input type="text" name="address" required>
+    </div>
 
-        <div style="padding:15px;">
-        <label>Tipo Sanguíneo </label>
-        <select name="blood_group" style="color:black; width:200px;" required>
-        <option>Selecione</option>
+    <div style="padding:15px;">
+    <label>Tipo Sanguíneo</label>
+    <select name="blood_type" required>
+        <option value="">Selecione...</option>
         <option value="A+">A+</option>
         <option value="A-">A-</option>
-        <!-- <option>A Unknown</option> -->
         <option value="B+">B+</option>
         <option value="B-">B-</option>
-        <!-- <option>B Unknown</option> -->
         <option value="AB+">AB+</option>
         <option value="AB-">AB-</option>
-        <!-- <option>AB Unknown</option> -->
         <option value="O+">O+</option>
         <option value="O-">O-</option>
-        <!-- <option>O Unknown</option>
-        <option>Unknown</option> -->
-        </select>     
+    </select>
+</div>
 
-        <div style="padding:15px;">
-        <label>Foto de Perfil</label>
-        <input type="file" name="file">
-        </div>
+    <div style="padding:15px;">
+        <label>Imagem</label>
+        <input type="file" name="image">
+    </div>
 
-        <div style="padding:15px;">
-        
-        <input type="submit" class="btn btn-success">
-        </div>
+    <div style="padding:15px;">
+        <input type="submit" class="btn btn-success" value="Cadastrar doador">
+    </div>
+  </form>     
+ <!-- plugins:js -->
+@include('admin.script')
+<!-- End custom js for this page -->
 
-        </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+<script>
+  $(document).ready(function(){
+    $('input[name="phone"]').mask('(00) 00000-0000');
+  });
+</script>
 
-        </form>
-        </div>
-
-
-        </div>
-    <!-- container-scroller -->
-    <!-- plugins:js -->
-    @include('admin.script')
-    <!-- End custom js for this page -->
   </body>
 </html>
