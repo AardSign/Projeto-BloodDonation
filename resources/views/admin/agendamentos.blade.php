@@ -28,7 +28,7 @@
 
           <form action="{{ url('/agendar') }}" method="POST">
   @csrf
-
+    //YARE YARE DAZE
   @if(Auth::user()->usertype == '1') {{-- Admin --}}
     <div style="padding:15px;">
       <label>Selecionar Doador</label>
