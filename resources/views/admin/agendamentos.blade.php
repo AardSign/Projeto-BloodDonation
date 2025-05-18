@@ -29,6 +29,8 @@
           <form action="{{ url('/agendar') }}" method="POST">
   @csrf
     //YARE YARE DAZE
+    //TEIOU WA KONO DIABORO DA!!
+    //このジョルノ・ジョバーナには夢がある
   @if(Auth::user()->usertype == '1') {{-- Admin --}}
     <div style="padding:15px;">
       <label>Selecionar Doador</label>
