@@ -163,61 +163,58 @@
             <a class="sidebar-brand brand-logo-mini" href="{{ url('/') }}"><img src="{{ asset('admin/assets/images/logo-mini.png') }}" alt="logo" /></a>
         </div>
 
-        <ul class="nav">
-            <li class="nav-item profile">
-                <div class="profile-desc">
-                    <div class="profile-pic">
-                        <div class="count-indicator">
-                            <img class="img-xs rounded-circle" src="{{ asset('admin/assets/images/faces/face15.jpg') }}" alt=""/>
-                            <span class="count bg-success"></span>
-                        </div>
-                    </div>
-                    <div class="profile-name">
-                        <h5 class="mb-0 font-weight-normal">Admin</h5>
-                        <span>Administrador</span>
-                    </div>
-                </div>
-            </li>
+<ul class="nav">
+  <li class="nav-item profile">
+    <div class="profile-desc">
+      <div class="profile-pic">
+        <div class="count-indicator">
+          <img class="img-xs rounded-circle" src="{{ asset('admin/assets/images/faces/face15.jpg') }}" alt=""/>
+          <span class="count bg-success"></span>
+        </div>
+      </div>
+      <div class="profile-name">
+        <h5 class="mb-0 font-weight-normal">Admin</h5>
+        <span>Administrador</span>
+      </div>
+    </div>
+  </li>
 
-            <li class="nav-item menu-items">
-               <a class="nav-link" href="{{ url('add_donor_view') }}">
-                    <span class="menu-icon">
-                        <i class="mdi mdi-file-document-box"></i>
-                    </span>
-                    <span class="menu-title">Adicionar Doadores</span>
-                </a>
-            </li>
+  <li class="nav-item menu-items">
+    <a class="nav-link" href="{{ url('add_donor_view') }}">
+      <span class="menu-icon"><i class="mdi mdi-file-document-box"></i></span>
+      <span class="menu-title">Adicionar Doadores</span>
+    </a>
+  </li>
 
-            <li class="nav-item menu-items">
-                <a class="nav-link" href="{{ url('usuarios') }}">
-                    <span class="menu-icon">
-                        <i class="mdi mdi-database"></i>
-                    </span>
-                    <span class="menu-title">Gerenciar Doadores</span>
-                </a>
-            </li>
+  <li class="nav-item menu-items">
+    <a class="nav-link" href="{{ url('usuarios') }}">
+      <span class="menu-icon"><i class="mdi mdi-database"></i></span>
+      <span class="menu-title">Gerenciar Doadores</span>
+    </a>
+  </li>
 
-            <li class="nav-item menu-items">
-                <a class="nav-link" href="{{ url('agendamentos') }}">
-                    <span class="menu-icon">
-                        <i class="mdi mdi-calendar-check"></i>
-                    </span>
-                    <span class="menu-title">Agendar</span>
-                </a>
-            </li>
+  <li class="nav-item menu-items">
+    <a class="nav-link" href="{{ url('agendamentos') }}">
+      <span class="menu-icon"><i class="mdi mdi-calendar-text"></i></span>
+      <span class="menu-title">Agendamentos</span>
+    </a>
+  </li>
 
-            @if(Auth::user()->usertype == '1')
-            <li class="nav-item menu-items">
-                <a class="nav-link" href="{{ url('/agendamentos-marcados') }}">
-                <span class="menu-icon">
-                    <i class="mdi mdi-calendar-multiselect"></i>
-                </span>
-                <span class="menu-title">Agendamentos Marcados</span>
-                </a>
-            </li>
-            @endif
+  <li class="nav-item menu-items">
+    <a class="nav-link" href="{{ url('agendar') }}">
+      <span class="menu-icon"><i class="mdi mdi-calendar-plus"></i></span>
+      <span class="menu-title">Novo Agendamento</span>
+    </a>
+  </li>
 
-        </ul>
+
+  <li class="nav-item menu-items {{ Request::is('locais-doacao*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ url('/locais-doacao') }}">
+      <span class="menu-icon"><i class="mdi mdi-hospital-building"></i></span>
+      <span class="menu-title">Locais de Doação</span>
+    </a>
+  </li>
+</ul>
     </nav>
 
     <div id="content-area">
