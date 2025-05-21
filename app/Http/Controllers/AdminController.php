@@ -15,13 +15,6 @@ class AdminController extends Controller
 
     public function upload(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users',
-            'data_nascimento' => 'required|date|before:-16 years',
-            'sexo' => 'required|in:M,F',
-        ]);
-
         $user = new User;
 
         $user->name = $request->name;
@@ -32,7 +25,7 @@ class AdminController extends Controller
         $user->data_nascimento = $request->data_nascimento;
         $user->sexo = $request->sexo;
         $user->usertype = '0'; // paciente/doador comum
-        $user->password = Hash::make('senhapadrao'); 
+        $user->password = Hash::make('senhapadrao');
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');

@@ -1,4 +1,4 @@
 # blooddonation laravel project
 
-This Blood Donation Management project is a web-based application developed using the Laravel framework. It serves as a simple yet effective system for managing blood donors and facilitating the search for available donors by the public.
-Platform that includes two login functionalities: one for administrators to add donors and manage the system, and another for users or the general public to view available donors and their details.
+Este projeto de Gestão de Doações de Sangue é uma aplicação web desenvolvida utilizando o framework Laravel. Ele serve como um sistema simples, porém eficaz, para gerenciar doadores de sangue e facilitar a busca por doadores disponíveis pelo público.
+Plataforma que inclui duas funcionalidades de login: uma para administradores adicionarem doadores e gerenciarem o sistema, e outra para usuários ou o público em geral visualizarem os doadores disponíveis e seus detalhes.
