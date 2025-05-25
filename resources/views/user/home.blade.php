@@ -82,9 +82,11 @@
               <a class="nav-link" href="#donors">Doadores</a>
             </li>
 
+           @auth
             <li class="nav-item">
               <a class="nav-link" href="/agendar">Agendar</a>
             </li>
+          @endauth
             @if(Route::has('login'))
 
             @auth
@@ -320,7 +322,7 @@
   </div> 
 
   
-  @include('user.donors')
+
 
   <footer class="page-footer">
     <div class="container">

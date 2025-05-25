@@ -48,7 +48,6 @@
               <label>Telefone</label>
               <input type="text" name="phone" required placeholder="(11) 91234-5678">
           </div>
-
           <div style="padding:15px;">
               <label>Endereço</label>
               <input type="text" name="address" required>
