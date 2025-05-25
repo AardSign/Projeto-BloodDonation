@@ -27,5 +27,5 @@ public function down(): void
 
 };
 
-     * Run the migrations.
+     Run the migrations.
      */

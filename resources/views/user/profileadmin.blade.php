@@ -72,10 +72,6 @@
             <li class="nav-item">
               <a class="nav-link" href="#donors">Doadores</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/add_donor_view">Adicionar Doadores</a>
-            </li>
-
             @if(Route::has('login'))
 
             @auth

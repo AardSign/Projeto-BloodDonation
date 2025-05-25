@@ -168,17 +168,29 @@
     <div class="profile-desc">
       <div class="profile-pic">
         <div class="count-indicator">
-          <img class="img-xs rounded-circle" src="{{ asset('admin/assets/images/faces/face15.jpg') }}" alt=""/>
+          <img class="img-xs rounded-circle" 
+               src="{{ Auth::user()->image ? asset('donorphotos/' . Auth::user()->image) : asset('admin/assets/images/faces/placeholder.jpg') }}" 
+               alt="Foto de perfil" />
           <span class="count bg-success"></span>
         </div>
       </div>
       <div class="profile-name">
-        <h5 class="mb-0 font-weight-normal">Admin</h5>
-        <span>Administrador</span>
+        <h5 class="mb-0 font-weight-normal">{{ Auth::user()->name }}</h5>
+        <span>
+          @if(Auth::user()->usertype == '1')
+            Administrador
+          @elseif(Auth::user()->usertype == '0')
+            Doador
+          @else
+            Usuário
+          @endif
+        </span>
       </div>
     </div>
   </li>
 
+
+  @if(Auth::user()->usertype == '1')
   <li class="nav-item menu-items">
     <a class="nav-link" href="{{ url('add_donor_view') }}">
       <span class="menu-icon"><i class="mdi mdi-file-document-box"></i></span>
@@ -192,14 +204,14 @@
       <span class="menu-title">Gerenciar Doadores</span>
     </a>
   </li>
-
+    
   <li class="nav-item menu-items">
     <a class="nav-link" href="{{ url('agendamentos') }}">
       <span class="menu-icon"><i class="mdi mdi-calendar-text"></i></span>
       <span class="menu-title">Agendamentos</span>
     </a>
   </li>
-
+    @endif
   <li class="nav-item menu-items">
     <a class="nav-link" href="{{ url('agendar') }}">
       <span class="menu-icon"><i class="mdi mdi-calendar-plus"></i></span>
@@ -207,97 +219,40 @@
     </a>
   </li>
 
+  @if(Auth::user()->usertype == '0') {{-- Usuário normal --}}
+  <li class="nav-item menu-items">
+    <a class="nav-link" href="{{ url('/meus-agendamentos') }}">
+      <span class="menu-icon"><i class="mdi mdi-calendar-text"></i></span>
+      <span class="menu-title">Meus Agendamentos</span>
+    </a>
+  </li>
+    @endif
 
+    @if(Auth::user()->usertype == '0')
+  <li class="nav-item menu-items">
+    <a class="nav-link" href="{{ url('/perfil/editar') }}">
+      <span class="menu-icon"><i class="mdi mdi-account-edit"></i></span>
+      <span class="menu-title">Editar Informações</span>
+    </a>
+  </li>
+    @endif
+
+
+
+    @if(Auth::user()->usertype == '1')
   <li class="nav-item menu-items {{ Request::is('locais-doacao*') ? 'active' : '' }}">
     <a class="nav-link" href="{{ url('/locais-doacao') }}">
       <span class="menu-icon"><i class="mdi mdi-hospital-building"></i></span>
       <span class="menu-title">Locais de Doação</span>
     </a>
   </li>
+    @endif
 </ul>
     </nav>
 
     <div id="content-area">
         <!-- Aqui carrega o conteúdo dinamicamente -->
     </div>
-
-    <script>
-        function showContent(page) {
-            var contentArea = document.getElementById('content-area');
-            contentArea.innerHTML = '';
-
-            if (page === 'adicionar') {
-                contentArea.innerHTML = `
-                    <h2>Adicionar Doadores</h2>
-                    <form>
-                        <input type="text" placeholder="Nome">
-                        <input type="text" placeholder="Telefone">
-                        <input type="text" placeholder="Cidade">
-                        <select>
-                            <option>Tipo Sanguíneo</option>
-                            <option>A+</option>
-                            <option>A-</option>
-                            <option>B+</option>
-                            <option>B-</option>
-                            <option>O+</option>
-                            <option>O-</option>
-                            <option>AB+</option>
-                            <option>AB-</option>
-                        </select>
-                        <button type="submit">Enviar</button>
-                    </form>
-                `;
-            } else if (page === 'gerenciar') {
-                contentArea.innerHTML = `
-                    <h2>Gerenciar Doadores</h2>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Telefone</th>
-                                <th>Cidade</th>
-                                <th>Tipo Sanguíneo</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>João da Silva</td>
-                                <td>(11) 91234-5678</td>
-                                <td>São Paulo</td>
-                                <td>A+</td>
-                                <td class="actions">
-                                    <button>Editar</button>
-                                    <button>Excluir</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Maria Oliveira</td>
-                                <td>(21) 98765-4321</td>
-                                <td>Rio de Janeiro</td>
-                                <td>O-</td>
-                                <td class="actions">
-                                    <button>Editar</button>
-                                    <button>Excluir</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                `;
-            } else if (page === 'agendar') {
-                contentArea.innerHTML = `
-                    <h2>Agendamentos</h2>
-                    <form>
-                        <input type="text" placeholder="Nome do Paciente">
-                        <input type="date">
-                        <input type="time">
-                        <button type="submit">Agendar</button>
-                    </form>
-                `;
-            }
-        }
-    </script>
-
 </body>
 </html>
 

@@ -5,6 +5,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\PerfilController;
+use App\Http\Controllers\NotificacaoController;
 
 Route::get('/',[HomeController::class,'index']);
 
@@ -43,3 +45,20 @@ Route::resource('locais-doacao', App\Http\Controllers\LocalDoacaoController::cla
     ->parameters(['locais-doacao' => 'localDoacao']);
 
 Route::get('/disponibilidade', [App\Http\Controllers\DisponibilidadeController::class, 'index'])->middleware('auth');
+
+Route::get('/meus-agendamentos', [AppointmentController::class, 'meusAgendamentos'])->middleware('auth');
+
+Route::get('/agendamento/{id}/remarcar', [AppointmentController::class, 'formRemarcar'])->middleware('auth');
+Route::put('/agendamento/{id}/remarcar', [AppointmentController::class, 'remarcarAgendamento'])->middleware('auth');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/perfil/editar', [PerfilController::class, 'edit'])->name('perfil.editar');
+    Route::put('/perfil/atualizar', [PerfilController::class, 'update'])->name('perfil.atualizar');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/notificacoes', [NotificacaoController::class, 'index'])->name('notificacoes.index');
+    Route::get('/notificacoes/{id}', [NotificacaoController::class, 'visualizar'])->name('notificacoes.visualizar');
+    Route::post('/notificacoes/marcar-todas', [NotificacaoController::class, 'marcarTodasComoLidas'])->name('notificacoes.marcarTodas');
+    Route::delete('/notificacoes/{id}', [NotificacaoController::class, 'deletar'])->name('notificacoes.deletar');
+});

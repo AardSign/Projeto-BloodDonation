@@ -25,91 +25,30 @@
                 </a>
               </li>
               <li class="nav-item dropdown border-left">
-                <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                  <i class="mdi mdi-email"></i>
-                  <span class="count bg-success"></span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
-                  <h6 class="p-3 mb-0">Mensagens</h6>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item preview-item">
-                    <div class="preview-thumbnail">
-                      <img src="{{ asset('admin/assets/images/faces/face4.jpg') }}" alt="image" class="rounded-circle profile-pic">
-                    </div>
-                    <div class="preview-item-content">
-                      <p class="preview-subject ellipsis mb-1">Mark te enviou uma mensagem</p>
-                      <p class="text-muted mb-0"> 1 Minuto atrás </p>
-                    </div>
-                  </a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item preview-item">
-                    <div class="preview-thumbnail">
-                     <img src="{{ asset('admin/assets/images/faces/face2.jpg') }}" alt="image" class="rounded-circle profile-pic">
-                    </div>
-                    <div class="preview-item-content">
-                      <p class="preview-subject ellipsis mb-1">Cregh te enviou uma mensagem</p>
-                      <p class="text-muted mb-0"> 15 minutos atrás </p>
-                    </div>
-                  </a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item preview-item">
-                    <div class="preview-thumbnail">
-                      <img src="{{ asset('admin/assets/images/faces/face3.jpg') }}" alt="image" class="rounded-circle profile-pic">
-                    </div>
-                    <div class="preview-item-content">
-                      <p class="preview-subject ellipsis mb-1">Foto de perfil atualizada</p>
-                      <p class="text-muted mb-0"> 18 minutos atrás </p>
-                    </div>
-                  </a>
-                  <div class="dropdown-divider"></div>
-                  <p class="p-3 mb-0 text-center">4 novas mensagens</p>
-                </div>
-              </li>
-              <li class="nav-item dropdown border-left">
                 <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-bs-toggle="dropdown">
                   <i class="mdi mdi-bell"></i>
-                  <span class="count bg-danger"></span>
+                  @if($notificacoes->where('lida', false)->count() > 0)
+                    <span class="count bg-danger">{{ $notificacoes->where('lida', false)->count() }}</span>
+                  @endif
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
                   <h6 class="p-3 mb-0">Notificações</h6>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item preview-item">
-                    <div class="preview-thumbnail">
-                      <div class="preview-icon bg-dark rounded-circle">
-                        <i class="mdi mdi-calendar text-success"></i>
+
+                  @foreach($notificacoes as $n)
+                    <a class="dropdown-item preview-item" href="{{ route('notificacoes.visualizar', $n->id) }}">
+                      <div class="preview-thumbnail">
+                        <div class="preview-icon bg-dark rounded-circle">
+                          <i class="mdi mdi-information text-warning"></i>
+                        </div>
                       </div>
-                    </div>
-                    <div class="preview-item-content">
-                      <p class="preview-subject mb-1">Evento</p>
-                      <p class="text-muted ellipsis mb-0"> Lembrete de Evento para hoje </p>
-                    </div>
-                  </a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item preview-item">
-                    <div class="preview-thumbnail">
-                      <div class="preview-icon bg-dark rounded-circle">
-                        <i class="mdi mdi-settings text-danger"></i>
+                      <div class="preview-item-content">
+                        <p class="preview-subject mb-1">{{ $n->titulo }}</p>
+                        <p class="text-muted ellipsis mb-0">{{ $n->mensagem }}</p>
                       </div>
-                    </div>
-                    <div class="preview-item-content">
-                      <p class="preview-subject mb-1">Configurações</p>
-                      <p class="text-muted ellipsis mb-0">Atualização de configurações</p>
-                    </div>
-                  </a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item preview-item">
-                    <div class="preview-thumbnail">
-                      <div class="preview-icon bg-dark rounded-circle">
-                        <i class="mdi mdi-link-variant text-warning"></i>
-                      </div>
-                    </div>
-                    <div class="preview-item-content">
-                      <p class="preview-subject mb-1">Administrador</p>
-                      <p class="text-muted ellipsis mb-0"> Novo Admin! </p>
-                    </div>
-                  </a>
-                  <div class="dropdown-divider"></div>
-                  <p class="p-3 mb-0 text-center">VeR todas as notificações</p>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                  @endforeach
                 </div>
               </li>
               <x-app-layout>
