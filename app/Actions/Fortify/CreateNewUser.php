@@ -13,16 +13,11 @@ class CreateNewUser implements CreatesNewUsers
 {
     use PasswordValidationRules;
 
-    /**
-     * Validate and create a newly registered user.
-     *
-     * @param  array<string, mixed>  $input
-     */
     public function create(array $input): User
     {
-        // Validação dos dados
         Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'phone' => ['required', 'string', 'min:10'],
             'address' => ['required', 'string', 'max:255'],
@@ -31,22 +26,23 @@ class CreateNewUser implements CreatesNewUsers
             'blood_type' => ['required', 'in:A+,A-,B+,B-,AB+,AB-,O+,O-'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
-        ], [
+       ], [
             'data_nascimento.before' => 'Você precisa ter pelo menos 16 anos para se registrar.',
             'sexo.required' => 'O campo sexo é obrigatório.',
-        ])->validate();
+       ])->validate();
 
-        // Upload da imagem de perfil (se existir)
+
+        // Upload da imagem de perfil (se enviada)
         $imageName = null;
+
         if (request()->hasFile('image') && request()->file('image')->isValid()) {
             $image = request()->file('image');
             $imageName = time() . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('donorphotos'), $imageName);
         }
 
-        // Criação do usuário
         return User::create([
-            'name' => $input['name'],
+            'name' => $input['first_name'] . ' ' . $input['last_name'],
             'email' => $input['email'],
             'phone' => $input['phone'],
             'address' => $input['address'],
@@ -55,7 +51,7 @@ class CreateNewUser implements CreatesNewUsers
             'blood_type' => $input['blood_type'],
             'password' => Hash::make($input['password']),
             'image' => $imageName,
-            'usertype' => '0', // paciente/doador
+            'usertype' => '0',
         ]);
     }
 }

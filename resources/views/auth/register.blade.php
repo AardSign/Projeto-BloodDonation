@@ -9,10 +9,16 @@
         <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
             @csrf
 
-            {{-- Nome --}}
+            {{-- Primeiro Nome --}}
             <div>
-                <x-label for="name" value="{{ __('Nome') }}" />
-                <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
+                <x-label for="first_name" value="Primeiro Nome" />
+                <x-input id="first_name" class="block mt-1 w-full" type="text" name="first_name" :value="old('first_name')" required />
+            </div>
+
+            {{-- Sobrenome --}}
+            <div class="mt-4">
+                <x-label for="last_name" value="Sobrenome" />
+                <x-input id="last_name" class="block mt-1 w-full" type="text" name="last_name" :value="old('last_name')" required />
             </div>
 
             {{-- Email --}}
@@ -72,9 +78,11 @@
                 <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required />
             </div>
 
-            <div class="mt-4">
-                <x-label for="image" value="{{ __('Foto de Perfil') }}" />
-                <x-input id="image" class="block mt-1 w-full" type="file" name="image" accept="image/*" />
+            <div style="padding:15px;">
+                <label>Selecionar imagem</label><br>
+                <input type="file" name="image" accept="image/*" onchange="previewImage(event)">
+                <br><br>
+                <img id="image-preview" src="#" alt="Prévia da imagem" style="display: none; width: 100px; height: 100px; object-fit: cover; border-radius: 8px;" />
             </div>
 
 
@@ -106,7 +114,19 @@
                 </x-button>
             </div>
         </form>
+        <script>
+                function previewImage(event) {
+                const reader = new FileReader();
+                reader.onload = function(){
+                    const output = document.getElementById('image-preview');
+                    output.src = reader.result;
+                    output.style.display = 'block';
+                };
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        </script>
     </x-authentication-card>
+
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
