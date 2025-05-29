@@ -20,10 +20,10 @@
       @include('admin.sidebar')
       @include('admin.navbar')
 
-      <div class="container-fluid page-body-wrapper">
-        <div class="container" align="center" style="padding-top:100px; max-width: 700px;">
+      <div class="container-fluid">
+        <div class="container" align="center" style="padding-top:150px; width:95%;">
 
-          <h2>Editar Meu Perfil</h2>
+          <h2>Editar Perfil</h2>
 
           @if(session('success'))
             <div class="alert alert-success">
@@ -32,7 +32,7 @@
             </div>
           @endif
 
-          <form action="{{ route('perfil.atualizar') }}" method="POST" enctype="multipart/form-data">
+          <form action="{{ route('perfil.atualizar') }}" method="POST" enctype="multipart/form-data" style="background-color: black">
             @csrf
             @method('PUT')
 

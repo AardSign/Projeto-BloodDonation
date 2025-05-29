@@ -6,9 +6,9 @@
             <a class="navbar-brand brand-logo-mini" href="index.html"> <img src="admin/assets/images/logo-mini.png" alt="logo" /></a>
           </div>
           <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
-            <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+           {{--  <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
               <span class="mdi mdi-menu"></span>
-            </button>
+            </button> --}}
             @if(Auth::user()->usertype == '1')
             <ul class="navbar-nav w-100">
               <li class="nav-item w-100">
