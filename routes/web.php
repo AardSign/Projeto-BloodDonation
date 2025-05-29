@@ -7,6 +7,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\NotificacaoController;
+use App\Http\Controllers\HistoricoMedicoController;
 
 Route::get('/',[HomeController::class,'index']);
 
@@ -61,4 +62,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/notificacoes/{id}', [NotificacaoController::class, 'visualizar'])->name('notificacoes.visualizar');
     Route::post('/notificacoes/marcar-todas', [NotificacaoController::class, 'marcarTodasComoLidas'])->name('notificacoes.marcarTodas');
     Route::delete('/notificacoes/{id}', [NotificacaoController::class, 'deletar'])->name('notificacoes.deletar');
+});
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/historico-medico/{user_id}', [HistoricoMedicoController::class, 'show'])->name('historico.show');
+    Route::get('/historico-medico/{user_id}/editar', [HistoricoMedicoController::class, 'edit'])->name('historico.edit');
+    Route::put('/historico-medico/{user_id}', [HistoricoMedicoController::class, 'update'])->name('historico.update');
+    Route::post('/historico-medico/{user_id}', [HistoricoMedicoController::class, 'storeOrUpdate'])->name('historico.storeOrUpdate');
+    Route::post('/historico-medico/{user_id}/salvar', [HistoricoMedicoController::class, 'storeOrUpdate'])->name('historico.storeOrUpdate');
 });

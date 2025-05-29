@@ -29,6 +29,13 @@
           <form action="{{ url('/agendar') }}" method="POST">
             @csrf
 
+            @if(Auth::user()->historicoMedico && !Auth::user()->historicoMedico->pode_doar)
+              <div class="alert alert-danger mt-4">
+                <strong>Atenção:</strong> Você está inapto para doar sangue no momento, de acordo com seu histórico médico.
+              </div>
+            @endif
+
+
             {{-- Campo para admin selecionar doador --}}
             @if(Auth::user()->usertype == '1')
               <div style="padding:15px;">

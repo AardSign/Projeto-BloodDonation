@@ -12,6 +12,7 @@
       <div class="container-fluid page-body-wrapper">
         <div class="container" style="padding-top: 100px;">
 
+
           <h2 class="text-center">Meus Agendamentos</h2>
 
           @if(session('success'))
@@ -21,9 +22,26 @@
             </div>
           @endif
 
+          @if(Auth::user()->historicoMedico && !Auth::user()->historicoMedico->pode_doar)
+            <div class="alert alert-danger">
+              <strong>Atenção:</strong> Você está temporariamente ou permanentemente inapto para realizar novas doações, conforme seu histórico médico.
+            </div>
+          @endif
+
+                @if(Auth::user()->historicoMedico && !Auth::user()->historicoMedico->pode_doar)
+          <div class="alert alert-danger">
+            <strong>Atenção:</strong> Você está inapto para realizar novas doações, de acordo com seu histórico médico.
+          </div>
+
+          <div class="text-end mb-3">
+            <button class="btn btn-secondary" disabled>Agendamento Bloqueado</button>
+          </div>
+        @else
           <div class="text-end mb-3">
             <a href="{{ url('/agendar') }}" class="btn btn-success">Novo Agendamento</a>
           </div>
+        @endif
+
 
           <table class="table table-bordered mt-3">
             <thead>

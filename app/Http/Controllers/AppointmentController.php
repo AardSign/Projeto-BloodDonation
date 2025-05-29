@@ -20,8 +20,20 @@ class AppointmentController extends Controller
 
     public function create()
     {
-        $locais = LocalDoacao::orderBy('nome')->get();
-        return view('agendamentos.create', compact('locais'));
+    $user = auth()->user();
+
+    // Se for usuário comum (doador)
+    if ($user->usertype === '0') {
+        $historico = $user->historicoMedico;
+
+        // Verifica se o histórico existe e se pode doar
+        if (!$historico || !$historico->pode_doar) {
+            return redirect('/meus-agendamentos')->with('message', 'Você está temporariamente inapto para doar sangue.');
+        }
+    }
+
+    $locais = LocalDoacao::orderBy('nome')->get();
+    return view('agendamentos.create', compact('locais'));
     }
 
     public function store(Request $request)
