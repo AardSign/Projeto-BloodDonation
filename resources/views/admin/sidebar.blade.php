@@ -237,6 +237,15 @@
   </li>
     @endif
 
+    @if(Auth::user()->usertype == '0')
+    <li class="nav-item menu-items">
+      <a class="nav-link" href="{{ url('/meu-historico') }}">
+        <span class="menu-icon"><i class="mdi mdi-heart-pulse"></i></span>
+        <span class="menu-title">Meu Histórico Médico</span>
+      </a>
+    </li>
+    @endif    
+
 
 
     @if(Auth::user()->usertype == '1')

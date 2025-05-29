@@ -71,3 +71,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/historico-medico/{user_id}', [HistoricoMedicoController::class, 'storeOrUpdate'])->name('historico.storeOrUpdate');
     Route::post('/historico-medico/{user_id}/salvar', [HistoricoMedicoController::class, 'storeOrUpdate'])->name('historico.storeOrUpdate');
 });
+
+Route::get('/meu-historico', [HistoricoMedicoController::class, 'meuHistorico'])
+     ->middleware('auth')
+     ->name('historico.meu');

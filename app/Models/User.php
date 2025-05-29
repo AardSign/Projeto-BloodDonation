@@ -72,7 +72,8 @@ class User extends Authenticatable
 
     public function historicoMedico()
     {
-    return $this->hasOne(HistoricoMedico::class);
+    return $this->hasOne(\App\Models\HistoricoMedico::class, 'user_id');
     }
+
 
 }

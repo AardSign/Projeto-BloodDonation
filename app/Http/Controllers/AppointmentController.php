@@ -17,24 +17,23 @@ class AppointmentController extends Controller
         $appointments = Appointment::with(['user', 'local'])->orderBy('date')->get();
         return view('agendamentos.index', compact('appointments'));
     }
-
-    public function create()
-    {
-    $user = auth()->user();
-
-    // Se for usuário comum (doador)
-    if ($user->usertype === '0') {
-        $historico = $user->historicoMedico;
-
-        // Verifica se o histórico existe e se pode doar
-        if (!$historico || !$historico->pode_doar) {
-            return redirect('/meus-agendamentos')->with('message', 'Você está temporariamente inapto para doar sangue.');
-        }
-    }
-
+    
+        public function create()
+    {   
+    $user = auth()->user()->load('historicoMedico');
     $locais = LocalDoacao::orderBy('nome')->get();
-    return view('agendamentos.create', compact('locais'));
+
+    // Apenas impede se o histórico EXISTIR e indicar que NÃO pode doar
+    if ($user->historicoMedico && !$user->historicoMedico->pode_doar) {
+        return redirect('/meus-agendamentos')
+            ->with('message', 'Você está temporariamente inapto para doar sangue.');
     }
+
+    return view('agendamentos.create', compact('locais', 'user'));
+    }
+
+
+
 
     public function store(Request $request)
     {

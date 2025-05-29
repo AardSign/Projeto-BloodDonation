@@ -26,65 +26,71 @@
 
           <h2>Agendar Doação</h2>
 
-          <form action="{{ url('/agendar') }}" method="POST">
-            @csrf
+      <form action="{{ url('/agendar') }}" method="POST">
+        @csrf
 
-            @if(Auth::user()->historicoMedico && !Auth::user()->historicoMedico->pode_doar)
-              <div class="alert alert-danger mt-4">
-                <strong>Atenção:</strong> Você está inapto para doar sangue no momento, de acordo com seu histórico médico.
-              </div>
-            @endif
+        @php $historico = $user->historicoMedico; @endphp
 
+    
+        @if($historico && !$historico->pode_doar)
+          <div class="alert alert-danger mt-4">
+            <strong>Atenção:</strong> Você está temporariamente ou permanentemente inapto para realizar novas doações, conforme seu histórico médico.
+          </div>
+        @endif
 
-            {{-- Campo para admin selecionar doador --}}
-            @if(Auth::user()->usertype == '1')
-              <div style="padding:15px;">
-                <label>Selecionar Doador</label>
-                <select name="user_id" required>
-                  <option value="">Selecione um doador...</option>
-                  @foreach(\App\Models\User::where('usertype', '0')->get() as $doador)
-                    <option value="{{ $doador->id }}">{{ $doador->name }} - {{ $doador->email }}</option>
-                  @endforeach
-                </select>
-              </div>
-            @endif
+        {{-- Admin seleciona doador --}}
+        @if(Auth::user()->usertype == '1')
+          <div class="mb-3">
+            <label>Selecionar Doador</label>
+            <select name="user_id" class="form-control" required>
+              <option value="">Selecione um doador...</option>
+              @foreach(\App\Models\User::where('usertype', '0')->get() as $doador)
+                <option value="{{ $doador->id }}">{{ $doador->name }} - {{ $doador->email }}</option>
+              @endforeach
+            </select>
+          </div>
+        @endif
 
-            {{-- Local de doação --}}
-            <div class="form-group mb-3">
-              <label for="local_doacao_id">Local de Doação</label>
-              <select name="local_doacao_id" class="form-control" required>
-                <option value="">Selecione um local</option>
-                @foreach($locais as $local)
-                  <option value="{{ $local->id }}" {{ old('local_doacao_id') == $local->id ? 'selected' : '' }}>
-                    {{ $local->nome }} - {{ $local->cidade ?? '' }}
-                  </option>
-                @endforeach
-              </select>
-              @error('local_doacao_id')
-                <small class="text-danger">{{ $message }}</small>
-              @enderror
-            </div>
+        {{-- Local de doação --}}
+        <div class="form-group mb-3">
+          <label for="local_doacao_id">Local de Doação</label>
+          <select name="local_doacao_id" class="form-control" required>
+            <option value="">Selecione um local</option>
+            @foreach($locais as $local)
+              <option value="{{ $local->id }}" {{ old('local_doacao_id') == $local->id ? 'selected' : '' }}>
+                {{ $local->nome }} - {{ $local->cidade ?? '' }}
+              </option>
+            @endforeach
+          </select>
+          @error('local_doacao_id')
+            <small class="text-danger">{{ $message }}</small>
+          @enderror
+        </div>
 
-            {{-- Data --}}
-            <div class="form-group mb-3">
-              <label for="date">Data</label>
-              <input type="date" name="date" id="data" class="form-control" required>
-            </div>
+        {{-- Data --}}
+        <div class="form-group mb-3">
+          <label for="date">Data</label>
+          <input type="date" name="date" id="data" class="form-control" required>
+        </div>
 
-            {{-- Hora --}}
-            <div class="form-group mb-3">
-              <label for="time">Horário</label>
-              <select name="time" id="horario" class="form-control" required>
-                <option value="">Selecione uma data primeiro</option>
-              </select>
-            </div>
+        {{-- Hora --}}
+        <div class="form-group mb-3">
+          <label for="time">Horário</label>
+          <select name="time" id="horario" class="form-control" required>
+            <option value="">Selecione uma data primeiro</option>
+          </select>
+        </div>
 
-            {{-- Botões --}}
-            <div style="padding:15px;">
-              <input type="submit" class="btn btn-success" value="Agendar">
-              <a href="{{ url('/') }}" class="btn btn-secondary">Cancelar</a>
-            </div>
-          </form>
+        {{-- Botões --}}
+        <div class="text-end mt-4">
+          <button type="submit" class="btn btn-success"
+            {{ ($historico && !$historico->pode_doar && $user->usertype === '0') ? 'disabled' : '' }}>
+            Agendar
+          </button>
+          <a href="{{ url('/') }}" class="btn btn-secondary">Cancelar</a>
+        </div>
+      </form>
+
 
         </div>
       </div>

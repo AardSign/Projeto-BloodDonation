@@ -92,6 +92,17 @@ class HistoricoMedicoController extends Controller
     }
 
     
+
+    public function meuHistorico()
+    {
+    $usuario = auth()->user();
+
+    // Garante que a relação esteja carregada
+    $historico = $usuario->historicoMedico;
+
+    return view('user.meu_historico', compact('historico'));
+    }
+
       //Regra de negócio para definir se o usuário pode doar
      
     private function avaliarElegibilidade(Request $request): bool
