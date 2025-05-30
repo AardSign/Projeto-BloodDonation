@@ -59,4 +59,17 @@ class NotificacaoController extends Controller
 
         return redirect()->back()->with('message', 'Notificação removida.');
     }
+
+    public function destroy($id)
+    {
+    $notificacao = \App\Models\Notification::find($id);
+
+    if ($notificacao && $notificacao->user_id == auth()->id()) {
+        $notificacao->delete();
+        return response()->json(['success' => true]);
+    }
+
+    return response()->json(['error' => 'Notificação não encontrada.'], 404);
+    }
+
 }

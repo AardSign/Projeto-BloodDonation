@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\HistoricoMedico;
+use App\Models\Appointment;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -15,8 +16,22 @@ class HistoricoMedicoController extends Controller
         $usuario = User::findOrFail($user_id);
         $historico = HistoricoMedico::where('user_id', $user_id)->first();
 
-        return view('admin.historico_medico.show', compact('usuario', 'historico'));
+       
+        $ultimaDoacao = Appointment::where('user_id', $user_id)
+            ->where('status', 'Concluído')
+            ->orderByDesc('date')
+            ->first();
+
+        $proximaPermitida = null;
+
+        if ($ultimaDoacao) {
+            $dias = $usuario->sexo === 'M' ? 60 : 90;
+            $proximaPermitida = \Carbon\Carbon::parse($ultimaDoacao->date)->addDays($dias);
+        }
+
+        return view('admin.historico_medico.show', compact('usuario', 'historico', 'ultimaDoacao', 'proximaPermitida'));
     }
+
 
     public function edit($user_id)
     {
@@ -93,15 +108,26 @@ class HistoricoMedicoController extends Controller
 
     
 
-    public function meuHistorico()
-    {
-    $usuario = auth()->user();
+        public function meuHistorico()
+        {
+            $usuario = auth()->user();
+            $historico = $usuario->historicoMedico;
 
-    // Garante que a relação esteja carregada
-    $historico = $usuario->historicoMedico;
+            $ultimaDoacao = Appointment::where('user_id', $usuario->id)
+                ->where('status', 'Concluído')
+                ->orderByDesc('date')
+                ->first();
 
-    return view('user.meu_historico', compact('historico'));
-    }
+            $proximaPermitida = null;
+
+            if ($ultimaDoacao) {
+                $dias = $usuario->sexo === 'M' ? 60 : 90;
+                $proximaPermitida = \Carbon\Carbon::parse($ultimaDoacao->date)->addDays($dias);
+            }
+
+            return view('user.meu_historico', compact('historico', 'ultimaDoacao', 'proximaPermitida'));
+        }
+
 
       //Regra de negócio para definir se o usuário pode doar
      

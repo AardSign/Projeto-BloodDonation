@@ -21,9 +21,14 @@
             </div>
           @endif
 
-          <div class="text-end mb-3">
+          <div class="text-right mb-3">
             <a href="{{ url('/agendar') }}" class="btn btn-success">Novo Agendamento</a>
           </div>
+
+          <form method="GET" action="{{ url('/agendamentos') }}" class="form-inline mb-4">
+            <input type="text" name="q" class="form-control mr-2 w-50" placeholder="Buscar por doador, data, hora, status ou local..." value="{{ request('q') }}">
+            <button type="submit" class="btn btn-primary">🔍 Buscar</button>
+          </form>
 
           <table class="table table-bordered mt-3">
             <thead>
@@ -45,8 +50,13 @@
                   <td>{{ $agendamento->local->nome ?? '-' }}</td>
                   <td>{{ $agendamento->status }}</td>
                   <td>
-                    <a href="{{ url('/agendamento/'.$agendamento->id.'/editar') }}" class="btn btn-sm btn-primary">Editar</a>
-                    <a href="{{ url('/agendamento/'.$agendamento->id.'/cancelar') }}" class="btn btn-sm btn-danger">Cancelar</a>
+                    @if($agendamento->status === 'Marcado')
+                      <a href="{{ url('/agendamento/'.$agendamento->id.'/editar') }}" class="btn btn-sm btn-primary">Editar</a>
+                      <a href="{{ url('/agendamento/'.$agendamento->id.'/cancelar') }}" class="btn btn-sm btn-danger">Cancelar</a>
+                      <a href="{{ url('/agendamento/'.$agendamento->id.'/concluir') }}" class="btn btn-sm btn-success">Concluir</a>
+                    @else
+                      <span class="text-muted">Ações indisponíveis</span>
+                    @endif
                   </td>
                 </tr>
               @endforeach

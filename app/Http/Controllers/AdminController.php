@@ -39,11 +39,22 @@ class AdminController extends Controller
         return redirect()->back()->with('message', 'Doador (usuário) cadastrado com sucesso!');
     }
 
-    public function showUsuarios()
-    {
-        $usuarios = User::where('usertype', '0')->get();
-        return view('admin.usuarios', compact('usuarios'));
-    }
+    public function showUsuarios(Request $request)
+        {
+            $query = User::where('usertype', '0'); 
+
+            if ($request->filled('q')) {
+                $search = $request->q;
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('phone', 'like', '%' . $search . '%');
+                });
+            }
+
+            $usuarios = $query->get();
+
+            return view('admin.usuarios', compact('usuarios'));
+        }
 
     public function editarUsuario($id)
     {

@@ -35,7 +35,7 @@
                   <div class="dropdown-divider"></div>
 
                   @foreach($notificacoes as $n)
-                    <a class="dropdown-item preview-item" href="{{ route('notificacoes.visualizar', $n->id) }}">
+                    <a class="dropdown-item preview-item notificacao" data-id="{{ $n->id }}" href="{{ route('notificacoes.visualizar', $n->id) }}">
                       <div class="preview-thumbnail">
                         <div class="preview-icon bg-dark rounded-circle">
                           <i class="mdi mdi-information text-warning"></i>
@@ -48,6 +48,8 @@
                     </a>
                     <div class="dropdown-divider"></div>
                   @endforeach
+
+
                 </div>
               </li>
               <x-app-layout>
@@ -59,3 +61,56 @@
             </button>
           </div>
         </nav>
+
+        <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          const notifBtn = document.getElementById('notificationDropdown');
+          notifBtn.addEventListener('click', function () {
+            fetch("{{ route('notificacoes.marcarTodas') }}", {
+              method: 'POST',
+              headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              }
+            }).then(() => {
+              const contador = notifBtn.querySelector('.count');
+              if (contador) {
+                contador.style.display = 'none';
+              }
+
+            
+              document.querySelectorAll('.notificacao').forEach(function (el) {
+                const id = el.getAttribute('data-id');
+                setTimeout(() => {
+                  fetch(`/notificacoes/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                      'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                  }).then(res => {
+                    if (res.ok) {
+                      el.remove();
+                    }
+                  });
+                }, 180000); 
+              });
+            });
+          });
+        });
+        </script>
+
+
+
+      <style>
+        #notificationDropdown + .dropdown-menu {
+          min-width: 300px;
+          padding: 10px;
+        }
+
+        .preview-item-content p {
+          white-space: normal !important;
+          overflow: visible !important;
+          text-overflow: unset;
+        }
+      </style>

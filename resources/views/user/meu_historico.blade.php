@@ -14,6 +14,17 @@
       <div class="container mt-5">
         <h2 class="text-center mb-4">Meu Histórico Médico</h2>
 
+        @if($ultimaDoacao)
+          <div class="alert alert-info mt-4">
+            Última doação: <strong>{{ \Carbon\Carbon::parse($ultimaDoacao->date)->format('d/m/Y') }}</strong><br>
+            Próxima doação permitida: <strong>{{ $proximaPermitida->format('d/m/Y') }}</strong>
+          </div>
+        @else
+          <div class="alert alert-secondary mt-4">
+            Nenhuma doação realizada até o momento.
+          </div>
+        @endif
+
         @php $historico = Auth::user()->historicoMedico; @endphp
 
         @if($historico)

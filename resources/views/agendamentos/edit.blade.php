@@ -59,11 +59,12 @@
               <input type="date" name="date" id="data" value="{{ $agendamento->date }}" class="form-control" required>
             </div>
 
-            {{-- Horário com <select> --}}
+            {{-- Horário --}}
             <div class="form-group mb-3">
               <label for="time">Horário</label>
-              <select name="time" id="horario" class="form-control" data-horario-atual="{{ $agendamento->time }}" required>
-                <option value="">Selecione uma data primeiro</option>
+              <select name="time" id="horario" class="form-control"
+                data-horario-atual="{{ \Carbon\Carbon::parse($agendamento->time)->format('H:i') }}" required>
+                
               </select>
             </div>
 
@@ -71,7 +72,7 @@
             <div style="padding:15px;">
               <label>Status</label>
               <select name="status" required>
-                <option value="Agendado" {{ $agendamento->status == 'Agendado' ? 'selected' : '' }}>Agendado</option>
+                <option value="Marcado" {{ $agendamento->status == 'Marcado' ? 'selected' : '' }}>Marcado</option>
                 <option value="Concluído" {{ $agendamento->status == 'Concluído' ? 'selected' : '' }}>Concluído</option>
                 <option value="Cancelado" {{ $agendamento->status == 'Cancelado' ? 'selected' : '' }}>Cancelado</option>
               </select>
@@ -105,7 +106,6 @@
           const hoje = new Date().toISOString().split('T')[0];
           campoData.setAttribute('min', hoje);
 
-          // Preenche horários se já houver data
           if (campoData.value) gerarHorarios(campoData.value);
 
           campoData.addEventListener('change', function () {
@@ -136,11 +136,14 @@
             if (horarios.length === 0) {
               campoHora.innerHTML = '<option value="">Nenhum horário disponível</option>';
             } else {
-              campoHora.innerHTML = '<option value="">Selecione um horário</option>';
               horarios.forEach(h => {
                 const selected = h === horarioAtual ? 'selected' : '';
                 campoHora.innerHTML += `<option value="${h}" ${selected}>${h}</option>`;
               });
+
+              if (horarioAtual && !horarios.includes(horarioAtual)) {
+                campoHora.innerHTML = `<option value="${horarioAtual}" selected>${horarioAtual} (atual)</option>` + campoHora.innerHTML;
+              }
             }
           }
         } catch (e) {

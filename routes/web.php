@@ -62,6 +62,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/notificacoes/{id}', [NotificacaoController::class, 'visualizar'])->name('notificacoes.visualizar');
     Route::post('/notificacoes/marcar-todas', [NotificacaoController::class, 'marcarTodasComoLidas'])->name('notificacoes.marcarTodas');
     Route::delete('/notificacoes/{id}', [NotificacaoController::class, 'deletar'])->name('notificacoes.deletar');
+    Route::delete('/notificacoes/{id}', [App\Http\Controllers\NotificacaoController::class, 'destroy'])->name('notificacoes.destroy');
+
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {

@@ -12,11 +12,32 @@ use App\Models\Notification;
 
 class AppointmentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $appointments = Appointment::with(['user', 'local'])->orderBy('date')->get();
+        $query = Appointment::with(['user', 'local']);
+
+        if ($request->filled('q')) {
+            $search = $request->q;
+
+            $query->where(function ($q) use ($search) {
+                $q->whereHas('user', function ($sub) use ($search) {
+                    $sub->where('name', 'like', "%$search%");
+                })
+                ->orWhereHas('local', function ($sub) use ($search) {
+                    $sub->where('nome', 'like', "%$search%");
+                })
+                ->orWhere('status', 'like', "%$search%")
+                ->orWhereDate('date', $search)
+                ->orWhereTime('time', $search);
+            });
+        }
+
+        $appointments = $query->orderBy('date')->get();
+
         return view('agendamentos.index', compact('appointments'));
     }
+
+
     
         public function create()
     {   
@@ -49,6 +70,12 @@ class AppointmentController extends Controller
         : Auth::id();
 
     $usuario = \App\Models\User::findOrFail($userId);
+
+    $historico = $usuario->historicoMedico;
+    if ($historico && !$historico->pode_doar) {
+        return redirect()->back()->with('message', 'Erro: O doador selecionado está inapto para doar conforme seu histórico médico.');
+    }
+
 
     // REGRA 1: Verifica idade e se é primeira doação antes dos 60
     $dataNascimento = Carbon::parse($usuario->data_nascimento);
@@ -99,7 +126,7 @@ class AppointmentController extends Controller
     // REGRA 5: Limita número de agendamentos por data
     $limite = 18;
     $agendamentosDoDia = Appointment::where('date', $request->date)
-        ->where('status', 'Agendado')
+        ->where('status', 'Marcado')
         ->count();
 
     if ($agendamentosDoDia >= $limite) {
@@ -129,7 +156,7 @@ class AppointmentController extends Controller
     Notification::create([
     'user_id' => $userId,
     'titulo' => 'Doação Marcada',
-    'mensagem' => 'Você tem uma doação marcada para o dia ' . $request->date . ' às ' . $request->time . '.',
+    'mensagem' => 'Você tem uma doação marcada para o dia ' . Carbon::parse($request->date)->format('d/m/Y') . ' às ' . $request->time . '.',
     'tipo' => 'lembrete',
     ]);
 
@@ -139,7 +166,7 @@ class AppointmentController extends Controller
         Notification::create([
             'user_id' => $admin->id,
             'titulo' => 'Novo Agendamento',
-            'mensagem' => 'O doador ' . $usuario->name . ' marcou uma doação para o dia ' . $request->date . ' às ' . $request->time . '.',
+            'mensagem' => 'O doador ' . $usuario->name . ' marcou uma doação para o dia ' . Carbon::parse($request->date)->format('d/m/Y') . ' às ' . $request->time . '.',
             'tipo' => 'admin_alerta',
         ]);
     }
@@ -154,17 +181,23 @@ class AppointmentController extends Controller
     public function edit($id)
     {
         $agendamento = Appointment::findOrFail($id);
-        $locais = LocalDoacao::orderBy('nome')->get();
 
+        if ($agendamento->status === 'Cancelado') {
+            return redirect()->back()->with('message', 'Agendamentos cancelados não podem ser editados.');
+        }
+
+        
+        $locais = LocalDoacao::orderBy('nome')->get();
         return view('agendamentos.edit', compact('agendamento', 'locais'));
     }
+
 
     public function update(Request $request, $id)
     {
         $request->validate([
             'date' => 'required|date',
             'time' => 'required',
-            'status' => 'required|in:Agendado,Cancelado,Concluído',
+            'status' => 'required|in:Marcado,Cancelado,Concluído',
             'local_doacao_id' => 'required|exists:locais_doacao,id',
         ]);
 
@@ -176,13 +209,34 @@ class AppointmentController extends Controller
             'local_doacao_id' => $request->local_doacao_id,
         ]);
 
-        return redirect('/agendamentos')->with('message', 'Agendamento atualizado com sucesso.');
+      
+        Notification::create([
+            'user_id' => $agendamento->user_id,
+            'titulo' => 'Agendamento Atualizado',
+            'mensagem' => 'Seu agendamento foi remarcado para o dia ' . Carbon::parse($request->date)->format('d/m/Y') . ' às ' . $request->time . '.',
+            'tipo' => 'remarcada',
+        ]);
+
+      
+        $usuario = $agendamento->user;
+        $admins = \App\Models\User::where('usertype', '1')->get();
+        foreach ($admins as $admin) {
+            Notification::create([
+                'user_id' => $admin->id,
+                'titulo' => 'Agendamento remarcado',
+                'mensagem' => 'O doador ' . $usuario->name . ' teve o agendamento remarcado para ' . Carbon::parse($request->date)->format('d/m/Y') . ' às ' . $request->time . '.',
+                'tipo' => 'admin_alerta',
+            ]);
+        }
+
+        return redirect('/agendamentos')->with('message', 'Agendamento Remarcado com sucesso.');
     }
+
 
     public function agendamentosMarcados()
     {
         $agendamentos = Appointment::with(['user', 'local'])
-            ->where('status', 'Agendado')
+            ->where('status', 'Marcado')
             ->orderBy('date')
             ->get();
 
@@ -194,11 +248,12 @@ class AppointmentController extends Controller
         $agendamento = Appointment::findOrFail($id);
         $agendamento->status = 'Concluído';
         $agendamento->save();
+
         
         Notification::create([
             'user_id' => $agendamento->user_id,
             'titulo' => 'Doação Concluída',
-            'mensagem' => 'Sua doação realizada em ' . $agendamento->date . ' foi concluída com sucesso. Obrigado por contribuir!',
+            'mensagem' => 'Sua doação realizada em ' . Carbon::parse($agendamento->date)->format('d/m/Y') . ' foi concluída com sucesso. Obrigado por contribuir!',
             'tipo' => 'concluida',
         ]);
 
@@ -206,15 +261,28 @@ class AppointmentController extends Controller
         $intervalo = $user->sexo === 'M' ? 60 : 90;
         $proximaData = Carbon::parse($agendamento->date)->addDays($intervalo)->format('d/m/Y');
 
+        
         Notification::create([
             'user_id' => $user->id,
             'titulo' => 'Próxima Doação Permitida',
-            'mensagem' => 'Você poderá doar novamente a partir de ' . $proximaData . '.',
+            'mensagem' => 'Você poderá doar novamente a partir de ' . Carbon::parse($proximaData)->format('d/m/Y') . '.',
             'tipo' => 'liberado',
         ]);
 
+        
+        $admins = \App\Models\User::where('usertype', '1')->get();
+        foreach ($admins as $admin) {
+            Notification::create([
+                'user_id' => $admin->id,
+                'titulo' => 'Doação Concluída',
+                'mensagem' => 'O doador ' . $user->name . ' concluiu sua doação no dia ' . Carbon::parse($agendamento->date)->format('d/m/Y') . '.',
+                'tipo' => 'admin_alerta',
+            ]);
+        }
+
         return redirect()->back()->with('message', 'Agendamento marcado como concluído.');
     }
+
 
     public function meusAgendamentos()
     {
@@ -246,7 +314,7 @@ class AppointmentController extends Controller
 
     $totalNoHorario = Appointment::where('date', $request->date)
         ->where('time', $request->time)
-        ->where('status', 'Agendado')
+        ->where('status', 'Marcado')
         ->count();
 
     if ($totalNoHorario >= 2) {
@@ -261,7 +329,7 @@ class AppointmentController extends Controller
     Notification::create([
     'user_id' => $agendamento->user_id,
     'titulo' => 'Doação Remarcada',
-    'mensagem' => 'Sua doação foi remarcada para ' . $request->date . ' às ' . $request->time . '.',
+    'mensagem' => 'Sua doação foi remarcada para ' . Carbon::parse($request->date)->format('d/m/Y') . ' às ' . $request->time . '.',
     'tipo' => 'remarcada',
     ]);
 
@@ -271,7 +339,7 @@ class AppointmentController extends Controller
         Notification::create([
             'user_id' => $admin->id,
             'titulo' => 'Doação Remarcada',
-            'mensagem' => 'O doador ' . $usuario->name . ' remarcou sua doação para ' . $request->date . ' às ' . $request->time . '.',
+            'mensagem' => 'O doador ' . $usuario->name . ' remarcou sua doação para ' . Carbon::parse($request->date)->format('d/m/Y') . ' às ' . $request->time . '.',
             'tipo' => 'admin_alerta',
         ]);
     }
@@ -311,7 +379,7 @@ class AppointmentController extends Controller
     // Verifica se já existem 2 agendamentos para o mesmo horário (excluindo o atual)
     $conflitoHorario = Appointment::where('date', $novaData)
         ->where('time', $novoHorario)
-        ->where('status', 'Agendado')
+        ->where('status', 'Marcado')
         ->where('id', '!=', $agendamento->id)
         ->count();
 
@@ -321,7 +389,7 @@ class AppointmentController extends Controller
 
     // Verifica se o dia já tem 18 agendamentos (2 por hora entre 08h e 17h)
     $totalDoDia = Appointment::where('date', $novaData)
-        ->where('status', 'Agendado')
+        ->where('status', 'Marcado')
         ->where('id', '!=', $agendamento->id)
         ->count();
 
@@ -360,14 +428,19 @@ class AppointmentController extends Controller
     public function cancel($id)
     {
         $appointment = Appointment::findOrFail($id);
+
+        if ($appointment->status === 'Cancelado') {
+            return redirect()->back()->with('message', 'Este agendamento já está cancelado.');
+        }
+
         $appointment->status = 'Cancelado';
         $appointment->save();
 
         Notification::create([
-        'user_id' => $appointment->user_id,
-        'titulo' => 'Doação Cancelada',
-        'mensagem' => 'Sua doação agendada para ' . $appointment->date . ' foi cancelada.',
-        'tipo' => 'cancelada',
+            'user_id' => $appointment->user_id,
+            'titulo' => 'Doação Cancelada',
+            'mensagem' => 'Sua doação agendada para ' . Carbon::parse($appointment->date)->format('d/m/Y') . ' foi cancelada.',
+            'tipo' => 'cancelada',
         ]);
 
         // Notificação para os admins
@@ -377,11 +450,13 @@ class AppointmentController extends Controller
             Notification::create([
                 'user_id' => $admin->id,
                 'titulo' => 'Doação Cancelada',
-                'mensagem' => 'O doador ' . $usuario->name . ' cancelou sua doação marcada para ' . $appointment->date . '.',
+                'mensagem' => 'O doador ' . $usuario->name . ' cancelou sua doação marcada para ' . Carbon::parse($appointment->date)->format('d/m/Y') . '.',
                 'tipo' => 'admin_alerta',
             ]);
         }
 
         return redirect()->back()->with('message', 'Agendamento cancelado.');
     }
+
 }
+

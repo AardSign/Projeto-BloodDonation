@@ -40,15 +40,31 @@
 
         {{-- Admin seleciona doador --}}
         @if(Auth::user()->usertype == '1')
-          <div class="mb-3">
-            <label>Selecionar Doador</label>
-            <select name="user_id" class="form-control" required>
-              <option value="">Selecione um doador...</option>
-              @foreach(\App\Models\User::where('usertype', '0')->get() as $doador)
-                <option value="{{ $doador->id }}">{{ $doador->name }} - {{ $doador->email }}</option>
-              @endforeach
-            </select>
-          </div>
+        @php
+          $doadores = \App\Models\User::where('usertype', '0')->with('historicoMedico')->get();
+        @endphp
+
+        <div class="mb-3">
+          <label>Selecionar Doador</label>
+          <select name="user_id" class="form-control" id="doador-select" required>
+            <option value="">Selecione um doador...</option>
+            @foreach($doadores as $doador)
+              <option value="{{ $doador->id }}">
+                {{ $doador->name }} - {{ $doador->email }}
+              </option>
+            @endforeach
+          </select>
+        </div>
+
+        <div id="alerta-inapto" class="alert alert-danger d-none mt-2">
+          <strong>Atenção:</strong> Este doador está inapto para doar conforme o histórico médico.
+        </div>
+
+        <script>
+          const doadoresStatus = @json($doadores->mapWithKeys(function($u) {
+            return [$u->id => $u->historicoMedico ? (bool)$u->historicoMedico->pode_doar : true];
+          }));
+        </script>
         @endif
 
         {{-- Local de doação --}}

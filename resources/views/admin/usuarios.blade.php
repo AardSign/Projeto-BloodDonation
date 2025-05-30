@@ -27,6 +27,14 @@
       @endif
 
       <h2 style="margin-bottom: 20px;">Lista de Doadores</h2>
+        
+      <form method="GET" action="{{ url('/usuarios') }}" class="form-inline mb-4 d-flex justify-content-center">
+        <input type="text" name="q" class="form-control mr-2 w-50" placeholder="Buscar por nome ou telefone..." value="{{ request('q') }}">
+        <button type="submit" class="btn btn-primary">🔍 Buscar</button>
+        <a href="{{ url('/usuarios') }}" class="btn btn-secondary ml-2">Limpar</a>
+      </form>
+
+
 
       <table class="table table-bordered" style="width:90%;">
         <thead class="thead-dark">
