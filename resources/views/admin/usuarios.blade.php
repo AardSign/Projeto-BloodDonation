@@ -12,6 +12,16 @@
         color: #f0f0f0;
       }
 
+thead tr{
+        background-color: #fff;
+      }
+
+      tbody tr{
+        background-color: #2f3b52;
+        color: white;
+        border-color: white;
+      }
+
       small.text-danger {
         color: red;
         display: block;
@@ -27,6 +37,14 @@
         margin: auto;
         color: white;
       }
+
+      .action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Espaço entre os botões */
+  align-items: center; /* Opcional: centraliza os botões na célula */
+}
+
 
       .form-container {
         display: flex;
@@ -85,23 +103,31 @@
       }
 
       .custom-file-upload {
-        display: inline-block;
-        padding: 8px 16px;
-        cursor: pointer;
-        border-radius: 4px;
-        border: 1px solid #1e90ff;
-        background-color: #1e90ff;
-        color: white;
-        font-size: 1rem;
-        user-select: none;
-        transition: background-color 0.3s ease, color 0.3s ease;
-      }
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 40px;
+  cursor: pointer;
+  border-radius: 4px;
+  border: 1px solid #1e90ff !important;
+  background-color: #1e90ff !important;
+  color: white;
+  font-size: 1rem;
+  user-select: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+   margin-right: 8px; /* ou o quanto quiser */
+  text-decoration: none;
+}
+
 
       .custom-file-upload:hover {
-        background-color: #005bb5;
-        border-color: #005bb5;
+        background-color: #005bb5 !important;
+        border-color: #005bb5 !important;
         color: white;
       }
+
+      
 
       .form-photo {
         display: flex;
@@ -152,32 +178,32 @@
         transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
       }
 
-      .form-actions .btn-primary {
-        width: 10px;
-        height: 10px;
+      .btn-primary {
+        width: 100px;
+        height: 22px;
         background-color: #4CAF50 !important;
         border: 1px solid #4CAF50 !important;
         color: white;
       }
 
-      .form-actions .btn-secondary {
-        width: 140px;
-        height: 40px;
-        background-color: #d32f2f;
-        border: 1px solid #d32f2f;
-        color: white;
+      .btn-secondary {
+        width: 100px;
+        height: 22px;
+        background-color: #d32f2f !important;
+        border: 1px solid #d32f2f !important;
+        color: white !important;
       }
 
-      .form-actions .btn-primary:hover {
+      .btn-primary:hover {
         background-color: #388E3C !important;
         border-color: #388E3C !important;
         color: black;
       }
 
-      .form-actions .btn-secondary:hover {
-        background-color: #b71c1c;
-        border-color: #b71c1c;
-        color: white;
+     .btn-secondary {
+        background-color: #b71c1c !important;
+        border-color: #b71c1c !important;
+        color: white ;
       }
 
       h2 {
@@ -216,7 +242,7 @@
   @include('admin.sidebar')
   @include('admin.navbar')
 
-  <div class="container-fluids">
+  <div class="container-fluid">
     <div class="container" align="center">
 
       @if(session()->has('message'))
@@ -228,19 +254,20 @@
 
       <div class="card-custom">
 
-      <h2 style="margin-bottom: 20px;">Lista de Doadores</h2>
+      <div class="edit-info-title">Lista de Doadores</div>
+
         
-      <form method="GET" action="{{ url('/usuarios') }}" class="form-inline mb-4 d-flex justify-content-center">
+      <form method="GET" action="{{ url('/usuarios') }}" class="form-inline mb-4 d-flex justify-content-start">
         <input type="text" name="q" class="form-control mr-2 w-50" placeholder="Buscar por nome ou telefone..." value="{{ request('q') }}">
-        <button type="submit" class="btn btn-primary"> Buscar</button>
-        <a href="{{ url('/usuarios') }}" class="btn btn-secondary ml-2">Limpar</a>
+        <button type="submit" class="custom-file-upload"> Buscar</button>
+        <a href="{{ url('/usuarios') }}" class="custom-file-upload">Limpar</a>
       </form>
       
       
 
 
       <table class="table table-bordered mt-3">
-        <thead class="thead-dark">
+        <thead>
           <tr>
             <th>Nome</th>
             <th>Email</th>
@@ -266,10 +293,10 @@
                 <span>Sem imagem</span>
               @endif
             </td>
-            <td>
-              <a href="{{ url('/usuarios/'.$user->id.'/editar') }}" class="btn btn-sm btn-primary mb-1">Editar</a>
+            <td class="action-buttons">
+              <a href="{{ url('/usuarios/'.$user->id.'/editar') }}" class="btn btn-primary">Editar</a>
               <a href="{{ url('/historico-medico/'.$user->id) }}" class="btn btn-sm btn-info mb-1">Ver Histórico</a>
-              <a href="{{ url('/usuarios/'.$user->id.'/excluir') }}" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza que deseja excluir este usuário?')">Excluir</a>
+              <a href="{{ url('/usuarios/'.$user->id.'/excluir') }}" class="btn btn-secondary" onclick="return confirm('Tem certeza que deseja excluir este usuário?')">Excluir</a>
             </td>
           </tr>
           @endforeach
