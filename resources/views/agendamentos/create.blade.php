@@ -303,8 +303,8 @@
         {{-- Horário Disponível --}}
         <div class="form-group mb-3">
           <label for="horario_disponivel_id">Horário Disponível</label>
-          <select name="horario_disponivel_id" id="horario_disponivel_id" class="form-control" required>
-            <option value="">Horários disponíveis só aparecerão após selecionar os outros campos...</option>
+          <select name="horario_disponivel_id" id="horario_disponivel_id" class="form-control" disabled required>
+            <option value="">Horários disponíveis só aparecerão após selecionar local e data...</option>
           </select>
         </div>
 
@@ -339,10 +339,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const data = dateInput.value;
         hiddenDate.value = data;
 
-        if (!localId || !data) {
-            horarioSelect.innerHTML = '<option value="">Selecione um horário</option>';
+         if (!localId || !data) {
+            horarioSelect.innerHTML = '<option value="">Horários disponíveis só aparecerão após selecionar local e data...</option>';
+            horarioSelect.disabled = true;
             return;
-        }
+          }
 
         try {
             const resposta = await fetch(`/api/horarios-disponiveis?local_id=${localId}&data=${data}`);

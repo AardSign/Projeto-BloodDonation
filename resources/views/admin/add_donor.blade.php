@@ -237,42 +237,49 @@
 
 
         
-        <div class="card-custom">
-        <form action="{{ url('upload_donor') }}" method="POST" enctype="multipart/form-data" id="form-doador">
-          @csrf
+<div class="card-custom">
+          <form action="{{ url('upload_donor') }}" method="POST" enctype="multipart/form-data" id="form-doador">
+            @csrf
 
-        <div class="edit-info-title">Adicionar Doadores</div>
+            <div class="edit-info-title">Adicionar Doadores</div>
 
+            <div class="form-container">
+              {{-- Nome e Sobrenome --}}
+              <div class="form-group">
+                <label>Nome</label>
+                <input type="text" id="nome" class="form-control" required placeholder="Digite seu nome">
+              </div>
 
-          <div class="form-container">
-          <div class="form-group">
-              <label>Nome</label>
-              <input type="text" name="name" required placeholder="Digite seu nome">
-          </div>
+              <div class="form-group">
+                <label>Sobrenome</label>
+                <input type="text" id="sobrenome" class="form-control" required placeholder="Digite seu sobrenome">
+              </div>
 
-          
-          <div class="form-group">
-              <label>Sobrenome</label>
-              <input type="text" name="name" required placeholder="Digite seu sobrenome">
-          </div>
+              {{-- Campo oculto para name --}}
+              <input type="hidden" name="name" id="name">
 
-          <div class="form-group">
-              <label>Email</label>
-              <input type="email" name="email" required  placeholder="Digite seu e-mail" >
-          </div>
+              {{-- Email --}}
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" required placeholder="Digite seu e-mail">
+              </div>
 
-          <div class="form-group">
-              <label>Telefone</label>
-              <input type="text" name="phone" required placeholder="(11) 91234-5678">
-          </div>
-          <div class="form-group">
-              <label>Endereço</label>
-              <input type="text" name="address" required placeholder="Digite seu endereço">
-          </div>
+              {{-- Telefone --}}
+              <div class="form-group">
+                <label>Telefone</label>
+                <input type="text" name="phone" id="phone" required placeholder="(11) 91234-5678">
+              </div>
 
-          <div class="form-group">
-              <label>Tipo Sanguíneo</label>
-              <select name="blood_type" required>
+              {{-- Endereço --}}
+              <div class="form-group">
+                <label>Endereço</label>
+                <input type="text" name="address" required placeholder="Digite seu endereço">
+              </div>
+
+              {{-- Tipo sanguíneo --}}
+              <div class="form-group">
+                <label>Tipo Sanguíneo</label>
+                <select name="blood_type" required>
                   <option value="">Selecione...</option>
                   <option value="A+">A+</option>
                   <option value="A-">A-</option>
@@ -282,97 +289,114 @@
                   <option value="AB-">AB-</option>
                   <option value="O+">O+</option>
                   <option value="O-">O-</option>
-              </select>
-          </div>
+                </select>
+              </div>
 
-          <div class="form-group">
-              <label>Data de Nascimento</label>
-              <input type="date" name="data_nascimento" id="data_nascimento" required>
-              <small class="text-danger d-none" id="erroIdade">Você deve ter pelo menos 16 anos.</small>
-          </div>
+              {{-- Data de nascimento --}}
+              <div class="form-group">
+                <label>Data de Nascimento</label>
+                <input type="date" name="data_nascimento" id="data_nascimento" required>
+                <small class="text-danger d-none" id="erroIdade">Você deve ter pelo menos 16 anos.</small>
+              </div>
 
-          <div class="form-group">
-              <label>Sexo</label>
-              <select name="sexo" id="sexo" required>
+              {{-- Sexo --}}
+              <div class="form-group">
+                <label>Sexo</label>
+                <select name="sexo" id="sexo" required>
                   <option value="">Selecione...</option>
                   <option value="M">Masculino</option>
                   <option value="F">Feminino</option>
-              </select>
-              <small class="text-danger d-none" id="erroSexo">Selecione o sexo.</small>
-          </div>
-          
-          
-          </div>
-          <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Adicionar</button>
-          </div>
+                </select>
+                <small class="text-danger d-none" id="erroSexo">Selecione o sexo.</small>
+              </div>
 
-        </form>
+              {{-- Senha --}}
+              <div class="form-group">
+                <label>Senha</label>
+                <input type="password" name="password" id="password" required minlength="8" class="form-control" placeholder="Mínimo 8 caracteres">
+                <small class="text-danger d-none" id="erroSenha">A senha deve ter no mínimo 8 caracteres.</small>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Adicionar</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
-
     @include('admin.script')
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script>
-  $(document).ready(function(){
-    $('input[name="phone"]').mask('(00) 00000-0000');
+      $(document).ready(function(){
+        $('input[name="phone"]').mask('(00) 00000-0000');
 
-    const nascimento = document.getElementById('data_nascimento');
-    const erroIdade = document.getElementById('erroIdade');
-    const sexo = document.getElementById('sexo');
-    const erroSexo = document.getElementById('erroSexo');
-    const form = document.getElementById('form-doador');
+        const nascimento = document.getElementById('data_nascimento');
+        const erroIdade = document.getElementById('erroIdade');
+        const sexo = document.getElementById('sexo');
+        const erroSexo = document.getElementById('erroSexo');
+        const senha = document.getElementById('password');
+        const erroSenha = document.getElementById('erroSenha');
+        const form = document.getElementById('form-doador');
 
-    // Função para calcular idade com precisão
-    function calcularIdade(dataNascStr) {
-      const dataNasc = new Date(dataNascStr);
-      const hoje = new Date();
-      let idade = hoje.getFullYear() - dataNasc.getFullYear();
-      const m = hoje.getMonth() - dataNasc.getMonth();
-      const d = hoje.getDate() - dataNasc.getDate();
+        // Função para calcular idade com precisão
+        function calcularIdade(dataNascStr) {
+          const dataNasc = new Date(dataNascStr);
+          const hoje = new Date();
+          let idade = hoje.getFullYear() - dataNasc.getFullYear();
+          const m = hoje.getMonth() - dataNasc.getMonth();
+          const d = hoje.getDate() - dataNasc.getDate();
 
-      if (m < 0 || (m === 0 && d < 0)) {
-        idade--;
-      }
+          if (m < 0 || (m === 0 && d < 0)) {
+            idade--;
+          }
 
-      return idade;
-    }
+          return idade;
+        }
 
-    // Evento ao mudar a data
-    nascimento.addEventListener('change', function () {
-      erroIdade.classList.add('d-none');
-      if (nascimento.value && calcularIdade(nascimento.value) < 16) {
-        erroIdade.classList.remove('d-none');
-      }
-    });
+        // Evento ao mudar a data
+        nascimento.addEventListener('change', function () {
+          erroIdade.classList.add('d-none');
+          if (nascimento.value && calcularIdade(nascimento.value) < 16) {
+            erroIdade.classList.remove('d-none');
+          }
+        });
 
-    // Validação final no envio
-    form.addEventListener('submit', function (e) {
-      let valido = true;
-      erroIdade.classList.add('d-none');
-      erroSexo.classList.add('d-none');
+        // Validação final no envio
+        form.addEventListener('submit', function (e) {
+          let valido = true;
+          erroIdade.classList.add('d-none');
+          erroSexo.classList.add('d-none');
+          erroSenha.classList.add('d-none');
 
-      // Verifica idade
-      if (!nascimento.value || calcularIdade(nascimento.value) < 16) {
-        erroIdade.classList.remove('d-none');
-        valido = false;
-      }
+          // Concatenar nome e sobrenome
+          const nome = document.getElementById('nome').value.trim();
+          const sobrenome = document.getElementById('sobrenome').value.trim();
+          document.getElementById('name').value = `${nome} ${sobrenome}`.trim();
 
-      // Verifica sexo
-      if (!sexo.value) {
-        erroSexo.classList.remove('d-none');
-        valido = false;
-      }
+          if (!nascimento.value || calcularIdade(nascimento.value) < 16) {
+            erroIdade.classList.remove('d-none');
+            valido = false;
+          }
 
-      if (!valido) {
-        e.preventDefault();
-      }
-    });
-  });
-</script>
+          if (!sexo.value) {
+            erroSexo.classList.remove('d-none');
+            valido = false;
+          }
+
+          if (!senha.value || senha.value.length < 8) {
+            erroSenha.classList.remove('d-none');
+            valido = false;
+          }
+
+          if (!valido) {
+            e.preventDefault();
+          }
+        });
+      });
+    </script>
 
   </body>
 </html>
