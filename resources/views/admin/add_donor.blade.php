@@ -205,158 +205,189 @@
       }
     </style>
 
-    @include('admin.css')
-  </head>
-  <body>
-    <div class="container-scroller">
+   @include('admin.css')
+</head>
+<body>
+  <div class="container-scroller">
+    @include('admin.sidebar')
+    @include('admin.navbar')
 
-      @include('admin.sidebar')
-      @include('admin.navbar')
-
-      <div class="container-fluid">
-        <div class="container" align="center">
+    <div class="container-fluid">
+      <div class="container" align="center">
 
         @if(session()->has('message'))
           <div class="alert alert-success">
-              <button type="button" class="close" data-dismiss="alert">&times;</button>  
-              {{ session()->get('message') }}
+            <button type="button" class="close" data-dismiss="alert">&times;</button>  
+            {{ session()->get('message') }}
           </div>
         @endif
 
-
-        
         <div class="card-custom">
-          <div class="edit-info-title">Editar Informações</div>
-        <form action="{{ url('upload_donor') }}" method="POST" enctype="multipart/form-data" id="form-doador">
-          @csrf
+          <div class="edit-info-title">Cadastrar Doador</div>
 
-          <div class="form-container">
-          <div class="form-group">
-                  <label>Nome</label>
-                  <input type="text" class="form-control">
-                </div>
+          <form action="{{ url('upload_donor') }}" method="POST" enctype="multipart/form-data" id="form-doador">
+            @csrf
+            <div class="form-container">
 
-          <div style="padding:15px;">
-              <label>Email</label>
-              <input type="email" name="email" required>
-          </div>
+              {{-- Nome --}}
+              <div class="form-group">
+                <label>Nome</label>
+                <input type="text" class="form-control" id="nome" required>
+              </div>
 
-          <div style="padding:15px;">
-              <label>Telefone</label>
-              <input type="text" name="phone" required placeholder="(11) 91234-5678">
-          </div>
-          <div style="padding:15px;">
-              <label>Endereço</label>
-              <input type="text" name="address" required>
-          </div>
+              {{-- Sobrenome --}}
+              <div class="form-group">
+                <label>Sobrenome</label>
+                <input type="text" class="form-control" id="sobrenome" required>
+              </div>
 
-          <div style="padding:15px;">
-              <label>Tipo Sanguíneo</label>
-              <select name="blood_type" required>
+              {{-- Campo oculto name --}}
+              <input type="hidden" name="name" id="name">
+
+              {{-- Email --}}
+              <div style="padding:15px;">
+                <label>Email</label>
+                <input type="email" name="email" required>
+              </div>
+
+              {{-- Telefone --}}
+              <div style="padding:15px;">
+                <label>Telefone</label>
+                <input type="text" name="phone" id="phone" required placeholder="(11) 91234-5678">
+              </div>
+
+              {{-- Endereço --}}
+              <div style="padding:15px;">
+                <label>Endereço</label>
+                <input type="text" name="address" required>
+              </div>
+
+              {{-- Tipo Sanguíneo --}}
+              <div style="padding:15px;">
+                <label>Tipo Sanguíneo</label>
+                <select name="blood_type" required>
                   <option value="">Selecione...</option>
-                  <option value="A+">A+</option>
-                  <option value="A-">A-</option>
-                  <option value="B+">B+</option>
-                  <option value="B-">B-</option>
-                  <option value="AB+">AB+</option>
-                  <option value="AB-">AB-</option>
-                  <option value="O+">O+</option>
-                  <option value="O-">O-</option>
-              </select>
-          </div>
+                  @foreach(['A+','A-','B+','B-','AB+','AB-','O+','O-'] as $tipo)
+                    <option value="{{ $tipo }}">{{ $tipo }}</option>
+                  @endforeach
+                </select>
+              </div>
 
-          <div style="padding:15px;">
-              <label>Data de Nascimento</label>
-              <input type="date" name="data_nascimento" id="data_nascimento" required>
-              <small class="text-danger d-none" id="erroIdade">Você deve ter pelo menos 16 anos.</small>
-          </div>
+              {{-- Data de nascimento --}}
+              <div style="padding:15px;">
+                <label>Data de Nascimento</label>
+                <input type="date" name="data_nascimento" id="data_nascimento" required>
+                <small class="text-danger d-none" id="erroIdade">Você deve ter pelo menos 16 anos.</small>
+              </div>
 
-          <div style="padding:15px;">
-              <label>Sexo</label>
-              <select name="sexo" id="sexo" required>
+              {{-- Sexo --}}
+              <div style="padding:15px;">
+                <label>Sexo</label>
+                <select name="sexo" id="sexo" required>
                   <option value="">Selecione...</option>
                   <option value="M">Masculino</option>
                   <option value="F">Feminino</option>
-              </select>
-              <small class="text-danger d-none" id="erroSexo">Selecione o sexo.</small>
-          </div>
+                </select>
+                <small class="text-danger d-none" id="erroSexo">Selecione o sexo.</small>
+              </div>
 
-          <div class="form-group">
-                  <label>Nova Foto</label>
-                  <input type="file" id="file-upload" name="image" accept="image/*">
-                  <label for="file-upload" class="custom-file-upload">Escolher foto</label>
+              {{-- Senha --}}
+              <div style="padding:15px;">
+                <label>Senha</label>
+                <input type="password" name="password" id="password" class="form-control" required minlength="8" placeholder="Mínimo 8 caracteres">
+                <small class="text-danger d-none" id="erroSenha">A senha deve ter no mínimo 8 caracteres.</small>
+              </div>
+
+              {{-- Foto --}}
+              <div class="form-group">
+                <label>Nova Foto</label>
+                <input type="file" id="file-upload" name="image" accept="image/*" onchange="previewImage(event)">
+                <label for="file-upload" class="custom-file-upload">Escolher foto</label>
+                <div style="margin-top: 10px;">
+                  <img id="preview-img" src="#" alt="Pré-visualização" style="max-width: 200px; display: none; border-radius: 10px;" />
                 </div>
+              </div>
 
-          <div style="padding:15px;">
-              <input type="submit" class="btn btn-success" value="Cadastrar doador">
-          </div>
-          </div>
-        </form>
+              {{-- Botão --}}
+              <div style="padding:15px;">
+                <input type="submit" class="btn btn-success" value="Cadastrar doador">
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
+  </div>
 
-    @include('admin.script')
+  @include('admin.script')
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
-    <script>
-  $(document).ready(function(){
-    $('input[name="phone"]').mask('(00) 00000-0000');
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
-    const nascimento = document.getElementById('data_nascimento');
-    const erroIdade = document.getElementById('erroIdade');
-    const sexo = document.getElementById('sexo');
-    const erroSexo = document.getElementById('erroSexo');
-    const form = document.getElementById('form-doador');
+  <script>
+    $(document).ready(function(){
+      $('#phone').mask('(00) 00000-0000');
 
-    // Função para calcular idade com precisão
-    function calcularIdade(dataNascStr) {
-      const dataNasc = new Date(dataNascStr);
-      const hoje = new Date();
-      let idade = hoje.getFullYear() - dataNasc.getFullYear();
-      const m = hoje.getMonth() - dataNasc.getMonth();
-      const d = hoje.getDate() - dataNasc.getDate();
+      const nascimento = document.getElementById('data_nascimento');
+      const erroIdade = document.getElementById('erroIdade');
+      const sexo = document.getElementById('sexo');
+      const erroSexo = document.getElementById('erroSexo');
+      const senha = document.getElementById('password');
+      const erroSenha = document.getElementById('erroSenha');
+      const form = document.getElementById('form-doador');
 
-      if (m < 0 || (m === 0 && d < 0)) {
-        idade--;
+      function calcularIdade(dataNascStr) {
+        const dataNasc = new Date(dataNascStr);
+        const hoje = new Date();
+        let idade = hoje.getFullYear() - dataNasc.getFullYear();
+        const m = hoje.getMonth() - dataNasc.getMonth();
+        const d = hoje.getDate() - dataNasc.getDate();
+        if (m < 0 || (m === 0 && d < 0)) idade--;
+        return idade;
       }
 
-      return idade;
+      form.addEventListener('submit', function (e) {
+        let valido = true;
+        erroIdade.classList.add('d-none');
+        erroSexo.classList.add('d-none');
+        erroSenha.classList.add('d-none');
+
+        // nome completo
+        const nome = document.getElementById('nome').value.trim();
+        const sobrenome = document.getElementById('sobrenome').value.trim();
+        document.getElementById('name').value = `${nome} ${sobrenome}`.trim();
+
+        if (!nascimento.value || calcularIdade(nascimento.value) < 16) {
+          erroIdade.classList.remove('d-none');
+          valido = false;
+        }
+
+        if (!sexo.value) {
+          erroSexo.classList.remove('d-none');
+          valido = false;
+        }
+
+        if (!senha.value || senha.value.length < 8) {
+          erroSenha.classList.remove('d-none');
+          valido = false;
+        }
+
+        if (!valido) {
+          e.preventDefault();
+        }
+      });
+    });
+
+    function previewImage(event) {
+      const reader = new FileReader();
+      reader.onload = function(){
+        const output = document.getElementById('preview-img');
+        output.src = reader.result;
+        output.style.display = 'block';
+      };
+      reader.readAsDataURL(event.target.files[0]);
     }
+  </script>
+</body>
 
-    // Evento ao mudar a data
-    nascimento.addEventListener('change', function () {
-      erroIdade.classList.add('d-none');
-      if (nascimento.value && calcularIdade(nascimento.value) < 16) {
-        erroIdade.classList.remove('d-none');
-      }
-    });
-
-    // Validação final no envio
-    form.addEventListener('submit', function (e) {
-      let valido = true;
-      erroIdade.classList.add('d-none');
-      erroSexo.classList.add('d-none');
-
-      // Verifica idade
-      if (!nascimento.value || calcularIdade(nascimento.value) < 16) {
-        erroIdade.classList.remove('d-none');
-        valido = false;
-      }
-
-      // Verifica sexo
-      if (!sexo.value) {
-        erroSexo.classList.remove('d-none');
-        valido = false;
-      }
-
-      if (!valido) {
-        e.preventDefault();
-      }
-    });
-  });
-</script>
-
-  </body>
 </html>
