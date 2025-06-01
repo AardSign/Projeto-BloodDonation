@@ -289,43 +289,42 @@ input.form-control:focus {
           @endif
 
 <div class="text-right mb-3">
-                <button type="submit" class="btn btn-green">Filtrar</button>
-                <a href="{{ route('horarios.create') }}" class="btn btn-green">Novo Horário</a>
-              </div>
+          
 
-          <form method="GET" action="{{ route('horarios.index') }}" class="mb-4">
-            <div class="row">
-              <div class="form-group">
-                
-                <label for="filtro_local">Filtrar por Local</label>
-                <select name="filtro_local" id="filtro_local" class="form-group select">
-                  <option value="">Todos os Locais</option>
-                  @foreach($locais as $local)
-                    <option value="{{ $local->id }}" {{ request('filtro_local') == $local->id ? 'selected' : '' }}>
-                      {{ $local->nome }}
-                    </option>
-                  @endforeach
-                </select>
-              </div>
-              
-              <div class="form-group">
-                <label for="filtro_data">Filtrar por Data</label>
-                <input type="date" name="filtro_data" id="filtro_data" class="form-group select" value="{{ request('filtro_data') }}">
-              </div>
+  <div class="text-right mb-3">
+    <button type="submit" form="form-filtro" class="btn btn-green">Filtrar</button>
+    <a href="{{ route('horarios.create') }}" class="btn btn-green">Novo Horário</a>
+  </div>
 
-              <div class="col-md-3 d-flex align-items-end gap-2">
-                
+  
+  <form method="GET" action="{{ route('horarios.index') }}" class="mb-4" id="form-filtro">
+    <div class="row">
+      <div class="form-group">
+        <label for="filtro_local">Filtrar por Local</label>
+        <select name="filtro_local" id="filtro_local" class="form-group select">
+          <option value="">Todos os Locais</option>
+          @foreach($locais as $local)
+            <option value="{{ $local->id }}" {{ request('filtro_local') == $local->id ? 'selected' : '' }}>
+              {{ $local->nome }}
+            </option>
+          @endforeach
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="filtro_data">Filtrar por Data</label>
+        <input type="date" name="filtro_data" id="filtro_data" class="form-group select" value="{{ request('filtro_data') }}">
+      </div>
 
-                @if(request()->has('filtro_local') || request()->has('filtro_data'))
-                  <a href="{{ route('horarios.index') }}" class="btn btn-secondary w-100">Limpar</a>
-                @endif
-              </div>
-            </div>
-          </form>
+      <div class="col-md-3 d-flex align-items-end gap-2">
+        @if(request('filtro_local') || request('filtro_data'))
+          <a href="{{ route('horarios.index') }}" class="btn btn-secondary w-100">Limpar</a>
+        @endif
+      </div>
+    </div>
+  </form>
 
-
-              
-              
+             
               <div class="table-responsive">
                 <table class="table table-bordered table-hover">
                   <thead class="thead-light">
