@@ -216,6 +216,19 @@ thead tr{
         user-select: none;
       }
 
+      input.form-control {
+  background-color: #fff !important;
+  color: #222 !important;
+}
+
+input.form-control:focus {
+  background-color: #fff !important;
+  color: #222 !important;
+  border-color: #2a9d8f;
+  box-shadow: 0 0 5px #2a9d8f;
+}
+
+
       .edit-info-title {
         font-size: 1.3rem;
         text-transform: uppercase;
