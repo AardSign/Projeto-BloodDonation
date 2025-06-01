@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use App\Models\HistoricoMedico;
+
 
 class AdminController extends Controller
 {
@@ -35,6 +37,21 @@ class AdminController extends Controller
         }
 
         $user->save();
+
+    // Cria histórico médico padrão
+    HistoricoMedico::create([
+        'user_id' => $user->id,
+        'usa_insulina' => false,
+        'tem_doenca_cardiaca' => false,
+        'tem_doenca_infecciosa' => null,
+        'peso' => null,
+        'usa_medicamentos' => null,
+        'data_ultima_transfusao' => null,
+        'teve_cancer' => false,
+        'doencas_autoimunes' => null,
+        'historico_convulsoes' => false,
+        'pode_doar' => true, 
+    ]);
 
         return redirect()->back()->with('message', 'Doador (usuário) cadastrado com sucesso!');
     }
