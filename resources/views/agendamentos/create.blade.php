@@ -324,68 +324,70 @@
       </div>
     </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const localSelect = document.querySelector('[name="local_doacao_id"]');
-    const dateInput = document.getElementById('data_visivel');
-    const hiddenDate = document.getElementById('data');
-    const horarioSelect = document.getElementById('horario_disponivel_id');
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const localSelect = document.querySelector('[name="local_doacao_id"]');
+        const dateInput = document.getElementById('data_visivel');
+        const hiddenDate = document.getElementById('data');
+        const horarioSelect = document.getElementById('horario_disponivel_id');
 
-    const hoje = new Date().toISOString().split('T')[0];
-    if (dateInput) dateInput.setAttribute('min', hoje);
+        const hoje = new Date().toISOString().split('T')[0];
+        if (dateInput) dateInput.setAttribute('min', hoje);
 
-    async function carregarHorariosDisponiveis() {
-        const localId = localSelect.value;
-        const data = dateInput.value;
-        hiddenDate.value = data;
+        async function carregarHorariosDisponiveis() {
+            const localId = localSelect.value;
+            const data = dateInput.value;
+            hiddenDate.value = data;
 
-         if (!localId || !data) {
-            horarioSelect.innerHTML = '<option value="">Horários disponíveis só aparecerão após selecionar local e data...</option>';
-            horarioSelect.disabled = true;
-            return;
-          }
+            if (!localId || !data) {
+                horarioSelect.innerHTML = '<option value="">Horários disponíveis só aparecerão após selecionar local e data...</option>';
+                horarioSelect.disabled = true;
+                return;
+              }
 
-        try {
-            const resposta = await fetch(`/api/horarios-disponiveis?local_id=${localId}&data=${data}`);
-            const horarios = await resposta.json();
+            try {
+                const resposta = await fetch(`/api/horarios-disponiveis?local_id=${localId}&data=${data}`);
+                const horarios = await resposta.json();
 
-            horarioSelect.innerHTML = '<option value="">Selecione um horário</option>';
+                horarioSelect.innerHTML = '<option value="">Selecione um horário</option>';
 
-            horarios.forEach(h => {
-                const opt = document.createElement('option');
-                opt.value = h.id;
+                horarios.forEach(h => {
+                    const opt = document.createElement('option');
+                    opt.value = h.id;
 
-                const estaCheio = h.total_agendados >= h.limite;
+                    const estaCheio = h.total_agendados >= h.limite;
 
-                opt.textContent = `${h.horario} - Dr(a). ${h.nome_doutor || 'N/A'} (${h.turno})` +
-                                  (estaCheio ? ' - Indisponível' : '');
+                    opt.textContent = `${h.horario} - Dr(a). ${h.nome_doutor || 'N/A'} (${h.turno})` +
+                                      (estaCheio ? ' - Indisponível' : '');
 
-                if (estaCheio) {
-                    opt.disabled = true;
-                }
+                    if (estaCheio) {
+                        opt.disabled = true;
+                    }
 
-                horarioSelect.appendChild(opt);
-            });
+                    horarioSelect.appendChild(opt);
+                });
 
-        } catch (e) {
-            console.error('Erro ao carregar horários:', e);
-            horarioSelect.innerHTML = '<option value="">Erro ao carregar horários</option>';
+                horarioSelect.disabled = false;
+                
+            } catch (e) {
+                console.error('Erro ao carregar horários:', e);
+                horarioSelect.innerHTML = '<option value="">Erro ao carregar horários</option>';
+            }
         }
-    }
 
-    localSelect.addEventListener('change', carregarHorariosDisponiveis);
-    dateInput.addEventListener('change', carregarHorariosDisponiveis);
-});
-
- document.addEventListener('DOMContentLoaded', function () {
-    const btnCancelar = document.getElementById('btn-cancelar');
-    const form = btnCancelar.closest('form');
-
-    btnCancelar.addEventListener('click', function () {
-      form.reset(); // Limpa todos os campos do formulário
+        localSelect.addEventListener('change', carregarHorariosDisponiveis);
+        dateInput.addEventListener('change', carregarHorariosDisponiveis);
     });
-  });
-</script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const btnCancelar = document.getElementById('btn-cancelar');
+        const form = btnCancelar.closest('form');
+
+        btnCancelar.addEventListener('click', function () {
+          form.reset(); // Limpa todos os campos do formulário
+        });
+      });
+    </script>
 
 
 

@@ -221,25 +221,35 @@
       @include('admin.sidebar')
       @include('admin.navbar')
 
-      <div class="container-fluid">
-        <div class="container" align="center">
-          @if(session()->has('message'))
-            <div class="alert alert-success">
-              <button type="button" class="close" data-dismiss="alert">&times;</button>
-              {{ session()->get('message') }}
-            </div>
-          @endif
+  <div class="container-fluid">
+    <div class="container" align="center">
+      @if(session()->has('message'))
+        <div class="alert alert-success">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          {{ session()->get('message') }}
+        </div>
+      @endif
 
-          <div class="card-custom">
-            <div class="edit-info-title">Editar Informações de Usuário</div>
+      <div class="card-custom">
+        <div class="edit-info-title">Editar Informações de Usuário</div>
 
-          <form action="{{ url('/usuarios/'.$usuario->id.'/atualizar') }}" method="POST" enctype="multipart/form-data" id="form-editar">
-            @csrf
-            <div class="form-container">
+        <form action="{{ url('/usuarios/'.$usuario->id.'/atualizar') }}" method="POST" enctype="multipart/form-data" id="form-editar">
+          @csrf
+          <div class="form-container">
+
+            {{-- Nome separado --}}
             <div class="form-group">
               <label>Nome</label>
-              <input type="text" name="name" value="{{ $usuario->name }}" required>
+              <input type="text" id="nome" class="form-control" required value="{{ explode(' ', $usuario->name)[0] }}">
             </div>
+
+            <div class="form-group">
+              <label>Sobrenome</label>
+              <input type="text" id="sobrenome" class="form-control" required value="{{ implode(' ', array_slice(explode(' ', $usuario->name), 1)) }}">
+            </div>
+
+            {{-- Campo oculto que será enviado como "name" --}}
+            <input type="hidden" name="name" id="name">
 
             <div class="form-group">
               <label>Email</label>
@@ -283,31 +293,30 @@
             </div>
 
             <div class="form-group">
-                  <label>Nova Foto</label>
-                  <input type="file" id="file-upload" name="image" accept="image/*">
-                  <label for="file-upload" class="custom-file-upload">Escolher foto</label>
-                </div>
+              <label>Nova Foto</label>
+              <input type="file" id="file-upload" name="image" accept="image/*">
+              <label for="file-upload" class="custom-file-upload">Escolher foto</label>
             </div>
-            
-                  <div class="form-photo">
-                  <label>Foto Atual</label>
-                  @if($usuario->image)
-                    <img src="{{ asset('donorphotos/'.$usuario->image) }}">
-                  @else
-                    <span>Nenhuma imagem</span>
-                  @endif
-                </div>
 
-            <div class="form-actions">
-                <button type="submit" class="btn btn-primary">Salvar Alterações</button>
-                <a href="{{ url('/') }}" class="btn btn-secondary">Cancelar</a>
-              </div>
-          </form>
           </div>
+
+          <div class="form-photo">
+            <label>Foto Atual</label>
+            @if($usuario->image)
+              <img src="{{ asset('donorphotos/'.$usuario->image) }}">
+            @else
+              <span>Nenhuma imagem</span>
+            @endif
           </div>
-        </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+            <a href="{{ url('/') }}" class="btn btn-secondary">Cancelar</a>
+          </div>
+        </form>
       </div>
     </div>
+  </div>
 
     @include('admin.script')
 
@@ -322,6 +331,10 @@
         const sexo = document.getElementById('sexo');
         const erroSexo = document.getElementById('erroSexo');
         const form = document.getElementById('form-editar');
+
+        const nome = document.getElementById('nome');
+        const sobrenome = document.getElementById('sobrenome');
+        const campoName = document.getElementById('name');
 
         function calcularIdade(dataNascStr) {
           const dataNasc = new Date(dataNascStr);
@@ -345,6 +358,11 @@
           erroIdade.classList.add('d-none');
           erroSexo.classList.add('d-none');
 
+         
+          if (nome && sobrenome && campoName) {
+            campoName.value = `${nome.value.trim()} ${sobrenome.value.trim()}`.trim();
+          }
+
           if (!nascimento.value || calcularIdade(nascimento.value) < 16) {
             erroIdade.classList.remove('d-none');
             valido = false;
@@ -361,5 +379,6 @@
         });
       });
     </script>
+
   </body>
 </html>
