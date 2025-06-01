@@ -275,10 +275,12 @@ input.form-control:focus {
       @include('admin.sidebar')
       @include('admin.navbar')
 
-      <div class="container-fluid page-body-wrapper">
-        <div class="container" style="padding-top: 100px; max-width: 600px;">
+      <div class="container-fluid">
+        <div class="container" align="center">
 
-          <h2 class="text-center mb-4">Editar Local de Doação</h2>
+          <div class="card-custom">
+
+          <div class="edit-info-title">Editar Locais de Doação</div>
 
           {{-- ALERTAS --}}
           @if(session('success'))
