@@ -1,8 +1,8 @@
 <x-guest-layout>
     <x-authentication-card>
-        <x-slot name="logo">
-            <x-authentication-card-logo />
-        </x-slot>
+       <x-slot name="logo">
+    <img src="{{ asset('hemocentro.png') }}" alt="Logo Hemocentro" style="width: 120px; height: 120px; display: block; margin: 0 auto;">
+</x-slot>
 
         <x-validation-errors class="mb-4" />
 
