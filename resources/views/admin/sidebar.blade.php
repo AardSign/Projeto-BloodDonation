@@ -246,8 +246,6 @@
     </li>
     @endif    
 
-
-
     @if(Auth::user()->usertype == '1')
   <li class="nav-item menu-items {{ Request::is('locais-doacao*') ? 'active' : '' }}">
     <a class="nav-link" href="{{ url('/locais-doacao') }}">
@@ -256,6 +254,16 @@
     </a>
   </li>
     @endif
+
+    @if(Auth::user()->usertype == '1')
+      <li class="nav-item menu-items {{ Request::is('/horarios') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ url('/horarios') }}">
+          <span class="menu-icon"><i class="mdi mdi-clock-outline"></i></span>
+          <span class="menu-title">Horários Disponíveis</span>
+        </a>
+      </li>
+    @endif
+
 </ul>
     </nav>
 

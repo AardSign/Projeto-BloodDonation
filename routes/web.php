@@ -8,6 +8,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\NotificacaoController;
 use App\Http\Controllers\HistoricoMedicoController;
+use App\Http\Controllers\HorarioDisponivelController;
 
 Route::get('/',[HomeController::class,'index']);
 
@@ -77,3 +78,13 @@ Route::middleware(['auth', 'admin'])->group(function () {
 Route::get('/meu-historico', [HistoricoMedicoController::class, 'meuHistorico'])
      ->middleware('auth')
      ->name('historico.meu');
+
+Route::get('/horarios', [HorarioDisponivelController::class, 'index'])->name('horarios.index');
+Route::get('/horarios/criar', [HorarioDisponivelController::class, 'create'])->name('horarios.create');
+Route::post('/horarios', [HorarioDisponivelController::class, 'store'])->name('horarios.store');
+Route::delete('/horarios/{id}', [HorarioDisponivelController::class, 'destroy'])->name('horarios.destroy');
+Route::get('/horarios/{id}/editar', [HorarioDisponivelController::class, 'edit'])->name('horarios.edit');
+Route::put('/horarios/{id}', [HorarioDisponivelController::class, 'update'])->name('horarios.update');
+
+
+Route::get('/api/horarios-disponiveis', [HorarioDisponivelController::class, 'disponiveis']);

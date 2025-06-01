@@ -15,6 +15,7 @@ class Appointment extends Model
         'time',
         'status',
         'local_doacao_id',
+        'horario_disponivel_id',
     ];
 
     // Relacionamento: um agendamento pertence a um usuário (doador)
@@ -28,4 +29,10 @@ class Appointment extends Model
     {
         return $this->belongsTo(LocalDoacao::class, 'local_doacao_id');
     }
+
+    public function horarioDisponivel()
+    {
+    return $this->belongsTo(HorarioDisponivel::class);
+    }
+
 }
