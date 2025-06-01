@@ -342,13 +342,14 @@ class AppointmentController extends Controller
 
         $user = $agendamento->user;
         $intervalo = $user->sexo === 'M' ? 60 : 90;
+
+       
         $proximaData = Carbon::parse($agendamento->date)->addDays($intervalo)->format('d/m/Y');
 
-        
         Notification::create([
             'user_id' => $user->id,
             'titulo' => 'Próxima Doação Permitida',
-            'mensagem' => 'Você poderá doar novamente a partir de ' . Carbon::parse($proximaData)->format('d/m/Y') . '.',
+            'mensagem' => 'Você poderá doar novamente a partir de ' . $proximaData . '.',
             'tipo' => 'liberado',
         ]);
 
