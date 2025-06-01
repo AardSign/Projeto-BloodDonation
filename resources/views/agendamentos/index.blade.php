@@ -126,6 +126,30 @@ thead tr{
         color: white;
       }
 
+      .custom-file-upload-two {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 22px;
+  cursor: pointer;
+  border-radius: 4px;
+  border: 1px solid #1e90ff !important;
+  background-color: #1e90ff !important;
+  color: white;
+  font-size: 1rem;
+  user-select: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+   margin-right: 1px; /* ou o quanto quiser */
+  text-decoration: none;
+}
+
+
+      .custom-file-upload-two:hover {
+        background-color: #005bb5 !important;
+        border-color: #005bb5 !important;
+        color: white;
+      }
       
 
       .form-photo {
@@ -185,6 +209,20 @@ thead tr{
         color: white;
       }
 
+      .btn-primary-one {
+        width: 100px;
+        height: 22px;
+        background-color: #4CAF50 !important;
+        border: 1px solid #4CAF50 !important;
+        color: white;
+      }
+
+      .btn-primary-one:hover {
+        background-color: #388E3C !important;
+        border-color: #388E3C !important;
+        color: black;
+      }
+
       .btn-secondary {
         width: 100px;
         height: 22px;
@@ -199,7 +237,7 @@ thead tr{
         color: black;
       }
 
-     .btn-secondary {
+     .btn-secondary:hover {
         background-color: #b71c1c !important;
         border-color: #b71c1c !important;
         color: white ;
@@ -295,9 +333,9 @@ input.form-control:focus {
                   <td>{{ $agendamento->status }}</td>
                   <td>
                     @if($agendamento->status === 'Marcado')
-                      <a href="{{ url('/agendamento/'.$agendamento->id.'/editar') }}" class="btn btn-sm btn-primary">Editar</a>
-                      <a href="{{ url('/agendamento/'.$agendamento->id.'/cancelar') }}" class="btn btn-sm btn-danger">Cancelar</a>
-                      <a href="{{ url('/agendamento/'.$agendamento->id.'/concluir') }}" class="btn btn-sm btn-success">Concluir</a>
+                      <a href="{{ url('/agendamento/'.$agendamento->id.'/editar') }}" class="custom-file-upload-two">Editar</a>
+                      <a href="{{ url('/agendamento/'.$agendamento->id.'/concluir') }}" class="btn btn-primary-one">Concluir</a>
+                      <a href="{{ url('/agendamento/'.$agendamento->id.'/cancelar') }}" class="btn btn-secondary">Cancelar</a>
                     @else
                       <span class="text-muted">Ações indisponíveis</span>
                     @endif

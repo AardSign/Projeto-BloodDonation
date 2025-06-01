@@ -127,7 +127,31 @@ thead tr{
         color: white;
       }
 
-      
+      .custom-file-upload-two {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 40px;
+  cursor: pointer;
+  border-radius: 4px;
+  border: 1px solid #1e90ff !important;
+  background-color: #1e90ff !important;
+  color: white;
+  font-size: 1rem;
+  user-select: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+   margin-right: 8px; /* ou o quanto quiser */
+  text-decoration: none;
+}
+
+
+      .custom-file-upload-two:hover {
+        background-color: #005bb5 !important;
+        border-color: #005bb5 !important;
+        color: white;
+
+      }
 
       .form-photo {
         display: flex;
@@ -200,7 +224,7 @@ thead tr{
         color: black;
       }
 
-     .btn-secondary {
+     .btn-secondary:hover {
         background-color: #b71c1c !important;
         border-color: #b71c1c !important;
         color: white ;

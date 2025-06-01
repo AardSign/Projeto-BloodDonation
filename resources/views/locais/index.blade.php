@@ -115,7 +115,7 @@ thead tr{
   font-size: 1rem;
   user-select: none;
   transition: background-color 0.3s ease, color 0.3s ease;
-   margin-right: 8px; /* ou o quanto quiser */
+   margin-right: 1px; /* ou o quanto quiser */
   text-decoration: none;
 }
 
@@ -179,15 +179,23 @@ thead tr{
 
       .btn-primary {
         width: 100px;
-        height: 22px;
+        height: 40px;
+        background-color: #4CAF50 !important;
+        border: 1px solid #4CAF50 !important;
+        color: white;
+      }
+
+      .btn-green {
+        width: 70px;
+        height: 25px;
         background-color: #4CAF50 !important;
         border: 1px solid #4CAF50 !important;
         color: white;
       }
 
       .btn-secondary {
-        width: 100px;
-        height: 22px;
+        width: 70px;
+        height: 30spx;
         background-color: #d32f2f !important;
         border: 1px solid #d32f2f !important;
         color: white !important;
@@ -199,7 +207,13 @@ thead tr{
         color: black;
       }
 
-     .btn-secondary {
+      .btn-green:hover {
+        background-color: #388E3C !important;
+        border-color: #388E3C !important;
+        color: black;
+      }
+
+     .btn-secondary:hover {
         background-color: #b71c1c !important;
         border-color: #b71c1c !important;
         color: white ;
@@ -252,10 +266,12 @@ input.form-control:focus {
       @include('admin.sidebar')
       @include('admin.navbar')
 
-      <div class="container-fluid page-body-wrapper">
-        <div class="container" style="padding-top: 100px;">
+      <div class="container-fluid">
+        <div class="container" align="center">
 
-          <h2 class="text-center">Locais de Doação</h2>
+          <div class="card-custom">
+
+          <div class="edit-info-title">Locais de Doação</div>
 
           @if(session()->has('success'))
             <div class="alert alert-success">
@@ -265,10 +281,12 @@ input.form-control:focus {
           @endif
 
           <div class="text-end mb-3">
-            <a href="{{ route('locais-doacao.create') }}" class="btn btn-success">Novo Local</a>
+            <a href="{{ route('locais-doacao.create') }}" class="btn btn-primary">Novo Local</a>
+              <button type="submit" class="custom-file-upload">Buscar</button>
+              <a href="{{ route('locais-doacao.index') }}" class="custom-file-upload">Limpar</a>
           </div>
 
-          {{-- Barra de Pesquisa --}}
+          {{-- Barras de Pesquisa --}}
           <form method="GET" action="{{ route('locais-doacao.index') }}" class="row g-3 mb-4">
             <div class="col-md-4">
               <input type="text" name="cidade" class="form-control" placeholder="Filtrar por cidade" value="{{ request('cidade') }}">
@@ -278,10 +296,6 @@ input.form-control:focus {
             </div>
             <div class="col-md-4">
               <input type="text" name="endereco" class="form-control" placeholder="Filtrar por endereço" value="{{ request('endereco') }}">
-            </div>
-            <div class="col-12 text-end">
-              <button type="submit" class="btn btn-primary">Buscar</button>
-              <a href="{{ route('locais-doacao.index') }}" class="btn btn-secondary">Limpar</a>
             </div>
           </form>
 
@@ -302,19 +316,19 @@ input.form-control:focus {
                   <td>{{ $local->endereco }}</td>
                   <td>{{ $local->cidade ?? '-' }}</td>
                   <td>{{ $local->telefone ?? '-' }}</td>
-                  <td>
-                    <a href="{{ route('locais-doacao.edit', $local) }}" class="btn btn-sm btn-warning">Editar</a>
+                  <td class="action-buttons">
+                    <a href="{{ route('locais-doacao.edit', $local) }}" class="btn btn-green">Editar</a>
                     <form action="{{ route('locais-doacao.destroy', $local) }}" method="POST" style="display:inline-block;">
                       @csrf
                       @method('DELETE')
-                      <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Deseja excluir este local?')">Excluir</button>
+                      <button type="submit" class="btn btn-secondary" onclick="return confirm('Deseja excluir este local?')">Excluir</button>
                     </form>
                   </td>
                 </tr>
               @endforeach
             </tbody>
           </table>
-
+          </div>
         </div>
       </div>
     </div>
