@@ -254,8 +254,8 @@
           $doadores = \App\Models\User::where('usertype', '0')->with('historicoMedico')->get();
         @endphp
 
-        <div class="mb-3">
-          <label>Selecionar Doador</label>
+        <div class="form-group mb-3">
+          <label>Selecionar Doador:</label>
           <select name="user_id" class="form-control" id="doador-select" required>
             <option value="">Selecione um doador...</option>
             @foreach($doadores as $doador)

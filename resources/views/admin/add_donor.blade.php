@@ -132,7 +132,7 @@
       .form-actions {
         padding: 12px 0;
         display: flex;
-        justify-content: center;
+        justify-content: flex-end;
         gap: 15px;
       }
 
@@ -150,10 +150,10 @@
       }
 
       .form-actions .btn-primary {
-        width: 160px;
+        width: 140px;
         height: 40px;
-        background-color: #4CAF50;
-        border: 1px solid #4CAF50;
+        background-color: #4CAF50 !important;
+        border: 1px solid #4CAF50 !important;
         color: white;
       }
 
@@ -166,8 +166,8 @@
       }
 
       .form-actions .btn-primary:hover {
-        background-color: #388E3C;
-        border-color: #388E3C;
+        background-color: #388E3C !important;
+        border-color: #388E3C !important;
         color: black;
       }
 
@@ -176,6 +176,18 @@
         border-color: #b71c1c;
         color: white;
       }
+
+.form-group select {
+    flex: 1;
+    padding: 6px 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    background-color: #fff;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    color: #222;
+}
+
 
       h2 {
         margin-bottom: 20px;
@@ -226,31 +238,39 @@
 
         
         <div class="card-custom">
-          <div class="edit-info-title">Editar Informações</div>
         <form action="{{ url('upload_donor') }}" method="POST" enctype="multipart/form-data" id="form-doador">
           @csrf
 
+        <div class="edit-info-title">Adicionar Doadores</div>
+
+
           <div class="form-container">
           <div class="form-group">
-                  <label>Nome</label>
-                  <input type="text" class="form-control">
-                </div>
+              <label>Nome</label>
+              <input type="text" name="name" required>
+          </div>
 
-          <div style="padding:15px;">
+          
+          <div class="form-group">
+              <label>Sobrenome</label>
+              <input type="text" name="name" required>
+          </div>
+
+          <div class="form-group">
               <label>Email</label>
               <input type="email" name="email" required>
           </div>
 
-          <div style="padding:15px;">
+          <div class="form-group">
               <label>Telefone</label>
               <input type="text" name="phone" required placeholder="(11) 91234-5678">
           </div>
-          <div style="padding:15px;">
+          <div class="form-group">
               <label>Endereço</label>
               <input type="text" name="address" required>
           </div>
 
-          <div style="padding:15px;">
+          <div class="form-group">
               <label>Tipo Sanguíneo</label>
               <select name="blood_type" required>
                   <option value="">Selecione...</option>
@@ -265,13 +285,13 @@
               </select>
           </div>
 
-          <div style="padding:15px;">
+          <div class="form-group">
               <label>Data de Nascimento</label>
               <input type="date" name="data_nascimento" id="data_nascimento" required>
               <small class="text-danger d-none" id="erroIdade">Você deve ter pelo menos 16 anos.</small>
           </div>
 
-          <div style="padding:15px;">
+          <div class="form-group">
               <label>Sexo</label>
               <select name="sexo" id="sexo" required>
                   <option value="">Selecione...</option>
@@ -280,17 +300,13 @@
               </select>
               <small class="text-danger d-none" id="erroSexo">Selecione o sexo.</small>
           </div>
-
-          <div class="form-group">
-                  <label>Nova Foto</label>
-                  <input type="file" id="file-upload" name="image" accept="image/*">
-                  <label for="file-upload" class="custom-file-upload">Escolher foto</label>
-                </div>
-
-          <div style="padding:15px;">
-              <input type="submit" class="btn btn-success" value="Cadastrar doador">
+          
+          
           </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Adicionar</button>
           </div>
+
         </form>
         </div>
       </div>
