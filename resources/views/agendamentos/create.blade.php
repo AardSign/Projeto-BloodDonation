@@ -315,7 +315,7 @@
             {{ ($historico && !$historico->pode_doar && $user->usertype === '0') ? 'disabled' : '' }}>
             Agendar
           </button>
-          <a href="{{ url('/') }}" class="btn btn-secondary">Cancelar</a>
+          <button type="button" id="btn-cancelar" class="btn btn-secondary">Cancelar</button>
         </div>
       </form>
           </div>
@@ -375,6 +375,15 @@ document.addEventListener('DOMContentLoaded', function () {
     localSelect.addEventListener('change', carregarHorariosDisponiveis);
     dateInput.addEventListener('change', carregarHorariosDisponiveis);
 });
+
+ document.addEventListener('DOMContentLoaded', function () {
+    const btnCancelar = document.getElementById('btn-cancelar');
+    const form = btnCancelar.closest('form');
+
+    btnCancelar.addEventListener('click', function () {
+      form.reset(); // Limpa todos os campos do formulário
+    });
+  });
 </script>
 
 
