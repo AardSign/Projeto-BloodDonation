@@ -247,18 +247,18 @@
           <div class="form-container">
           <div class="form-group">
               <label>Nome</label>
-              <input type="text" name="name" required>
+              <input type="text" name="name" required placeholder="Digite seu nome">
           </div>
 
           
           <div class="form-group">
               <label>Sobrenome</label>
-              <input type="text" name="name" required>
+              <input type="text" name="name" required placeholder="Digite seu sobrenome">
           </div>
 
           <div class="form-group">
               <label>Email</label>
-              <input type="email" name="email" required>
+              <input type="email" name="email" required  placeholder="Digite seu e-mail" >
           </div>
 
           <div class="form-group">
@@ -267,7 +267,7 @@
           </div>
           <div class="form-group">
               <label>Endereço</label>
-              <input type="text" name="address" required>
+              <input type="text" name="address" required placeholder="Digite seu endereço">
           </div>
 
           <div class="form-group">
