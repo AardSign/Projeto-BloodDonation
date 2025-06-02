@@ -20,6 +20,12 @@ thead tr{
         border-color: white;
       }
 
+      tbody tr:hover{
+        background-color: #2f3b52 !important;
+        color: white !important;
+        border-color: white;
+      }
+
       small.text-danger {
         color: red;
         display: block;
@@ -178,7 +184,7 @@ thead tr{
 
       .btn-primary {
         width: 100px;
-        height: 20px;
+        height: 25px;
         background-color: #4CAF50 !important;
         border: 1px solid #4CAF50 !important;
         color: white;
@@ -194,10 +200,24 @@ thead tr{
 
       .btn-secondary {
         width: 100px;
-        height: 20px;
+        height: 25px;
         background-color: #d32f2f !important;
         border: 1px solid #d32f2f !important;
         color: white !important;
+      }
+
+      .btn-clean {
+        width:100px;
+        height: 40px;
+        background-color: #d32f2f !important;
+        border: 1px solid #d32f2f !important;
+        color: white !important;
+      }
+
+      .btn-clean:hover {
+        background-color: #b71c1c !important;
+        border-color: #b71c1c !important;
+        color: white ;
       }
 
       .btn-primary:hover {
@@ -294,6 +314,9 @@ input.form-control:focus {
   <div class="text-right mb-3">
     <button type="submit" form="form-filtro" class="btn btn-green">Filtrar</button>
     <a href="{{ route('horarios.create') }}" class="btn btn-green">Novo Horário</a>
+      @if(request('filtro_local') || request('filtro_data'))
+          <a href="{{ route('horarios.index') }}" class="btn btn-clean">Limpar</a>
+        @endif
   </div>
 
   
@@ -315,18 +338,12 @@ input.form-control:focus {
         <label for="filtro_data">Filtrar por Data</label>
         <input type="date" name="filtro_data" id="filtro_data" class="form-group select" value="{{ request('filtro_data') }}">
       </div>
-
-      <div class="col-md-3 d-flex align-items-end gap-2">
-        @if(request('filtro_local') || request('filtro_data'))
-          <a href="{{ route('horarios.index') }}" class="btn btn-secondary w-100">Limpar</a>
-        @endif
-      </div>
     </div>
   </form>
 
              
               <div class="table-responsive">
-                <table class="table table-bordered table-hover">
+                <table class="table table-bordered ">
                   <thead class="thead-light">
                     <tr>
                       <th>Horário</th>
