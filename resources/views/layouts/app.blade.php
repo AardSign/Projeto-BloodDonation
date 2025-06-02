@@ -16,6 +16,19 @@
 
         <!-- Styles -->
         @livewireStyles
+
+        <!-- Manifest -->
+        <link rel="manifest" href="/manifest.json">
+        <meta name="theme-color" content="#dc2626">
+
+        <!-- Service Worker -->
+        <script>
+            if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js')
+            .then(() => console.log("✅ Service Worker registrado"))
+            .catch(err => console.error("❌ Erro no SW", err));
+            }
+        </script>
     </head>
     <body class="font-sans antialiased">
         <x-banner />
