@@ -439,5 +439,6 @@ input.form-control:focus {
 </script>
 
     @include('admin.script')
+    
   </body>
 </html>

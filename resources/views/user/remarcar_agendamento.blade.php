@@ -262,6 +262,9 @@ input.form-control:focus {
         width: 95%;
       }
   </style>
+  <link rel="manifest" href="{{ asset('manifest.json') }}">
+  <meta name="theme-color" content="#0d6efd">
+  <link rel="icon" href="/icons/icon-192.png" type="image/png">
 </head>
 <body>
 <div class="container-scroller">
@@ -369,5 +372,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 });
 </script>
+
 </body>
 </html>

@@ -52,6 +52,36 @@
                     .catch(err => console.error("Erro ao registrar o Service Worker:", err));
             }
         </script>
+        
+        <button id="btnInstall" style="display:none;">Instalar App</button>
+
+        <script>
+        let deferredPrompt;
+
+        window.addEventListener("beforeinstallprompt", (e) => {
+            // Evita o prompt automático
+            e.preventDefault();
+            deferredPrompt = e;
+
+            // Mostra o botão
+            const installBtn = document.getElementById("btnInstall");
+            installBtn.style.display = "block";
+
+            installBtn.addEventListener("click", () => {
+            installBtn.style.display = "none";
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === "accepted") {
+                console.log("Usuário aceitou instalar o PWA");
+                } else {
+                console.log("Usuário recusou instalar o PWA");
+                }
+                deferredPrompt = null;
+            });
+            });
+        });
+        </script>
+
 
     </body>
 </html>

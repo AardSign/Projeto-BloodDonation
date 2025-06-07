@@ -19,6 +19,9 @@
   <link rel="stylesheet" href="../assets/vendor/animate/animate.css">
 
   <link rel="stylesheet" href="../assets/css/theme.css">
+  <link rel="manifest" href="{{ asset('manifest.json') }}">
+  <meta name="theme-color" content="#0d6efd">
+  <link rel="icon" href="/icons/icon-192.png" type="image/png">
 </head>
 <body>
 
@@ -105,3 +108,5 @@
       </div> 
     </nav>
   </header>
+  
+<body>

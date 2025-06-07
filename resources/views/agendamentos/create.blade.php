@@ -398,6 +398,7 @@
 
 
     @include('admin.script')
+    
   </body>
 
 

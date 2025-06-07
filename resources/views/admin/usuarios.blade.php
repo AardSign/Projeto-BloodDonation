@@ -356,5 +356,6 @@ input.form-control:focus {
         $('input[name="phone"]').mask('(00) 00000-0000');
       });
     </script>
+    
   </body>
 </html>
