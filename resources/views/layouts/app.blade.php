@@ -16,6 +16,10 @@
 
         <!-- Styles -->
         @livewireStyles
+        <link rel="manifest" href="{{ asset('manifest.json') }}">
+        <meta name="theme-color" content="#0d6efd">
+        <link rel="icon" href="/icons/icon-192.png" type="image/png">
+
     </head>
     <body class="font-sans antialiased">
         <x-banner />
@@ -41,5 +45,13 @@
         @stack('modals')
 
         @livewireScripts
+        <script>
+            if ("serviceWorker" in navigator) {
+                navigator.serviceWorker.register("/service-worker.js")
+                    .then(() => console.log("Service Worker registrado!"))
+                    .catch(err => console.error("Erro ao registrar o Service Worker:", err));
+            }
+        </script>
+
     </body>
 </html>
