@@ -13,10 +13,20 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+         <link rel="manifest" href="{{ asset('manifest.json') }}">
+         <meta name="theme-color" content="#0d6efd">
+         <link rel="icon" href="/icons/icon-192.png" type="image/png">
     </head>
     <body>
         <div class="font-sans text-gray-900 antialiased">
             {{ $slot }}
         </div>
+        <script>
+            if ("serviceWorker" in navigator) {
+                navigator.serviceWorker.register("/service-worker.js")
+                    .then(() => console.log("Service Worker registrado!"))
+                    .catch(err => console.error("Erro ao registrar o Service Worker:", err));
+            }
+        </script>
     </body>
 </html>

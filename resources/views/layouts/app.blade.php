@@ -16,6 +16,18 @@
 
         <!-- Styles -->
         @livewireStyles
+        <!-- Service Worker -->
+        <script>
+            if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js')
+            .then(() => console.log("✅ Service Worker registrado"))
+            .catch(err => console.error("❌ Erro no SW", err));
+            }
+        </script>
+        <link rel="manifest" href="{{ asset('manifest.json') }}">
+        <meta name="theme-color" content="#0d6efd">
+        <link rel="icon" href="/icons/icon-192.png" type="image/png">
+
     </head>
     <body class="font-sans antialiased">
         <x-banner />
@@ -41,5 +53,43 @@
         @stack('modals')
 
         @livewireScripts
+        <script>
+            if ("serviceWorker" in navigator) {
+                navigator.serviceWorker.register("/service-worker.js")
+                    .then(() => console.log("Service Worker registrado!"))
+                    .catch(err => console.error("Erro ao registrar o Service Worker:", err));
+            }
+        </script>
+        
+        <button id="btnInstall" style="display:none;">Instalar App</button>
+
+        <script>
+        let deferredPrompt;
+
+        window.addEventListener("beforeinstallprompt", (e) => {
+            // Evita o prompt automático
+            e.preventDefault();
+            deferredPrompt = e;
+
+            // Mostra o botão
+            const installBtn = document.getElementById("btnInstall");
+            installBtn.style.display = "block";
+
+            installBtn.addEventListener("click", () => {
+            installBtn.style.display = "none";
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === "accepted") {
+                console.log("Usuário aceitou instalar o PWA");
+                } else {
+                console.log("Usuário recusou instalar o PWA");
+                }
+                deferredPrompt = null;
+            });
+            });
+        });
+        </script>
+
+
     </body>
 </html>
