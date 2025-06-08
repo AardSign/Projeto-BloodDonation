@@ -258,6 +258,103 @@ input.form-control:focus {
         padding-bottom: 20px;
         width: 95%;
       }
+
+      @media (max-width: 768px) {
+  .form-group {
+    flex: 1 1 100%;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .form-group label {
+    width: 100%;
+    margin-bottom: 4px;
+    text-align: left;
+  }
+
+  .text-end.mb-3 {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+    margin-bottom: 20px !important;
+  }
+
+  .row.g-3.mb-4 {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px !important;
+  }
+
+  .row.g-3.mb-4 .col-md-4 {
+    width: 100%;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn,
+  .custom-file-upload {
+    width: 100% !important;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .table thead {
+    display: none; /* Oculta o cabeçalho da tabela no mobile */
+  }
+
+  .table tbody tr {
+    display: block;
+    margin-bottom: 15px;
+    background-color: #2f3b52;
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid #444;
+  }
+
+  .table tbody td {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    border: none;
+    border-bottom: 1px solid #444;
+    font-size: 0.95rem;
+  }
+
+  .table tbody td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #90caf9;
+    flex-basis: 50%;
+    text-align: left;
+    padding-right: 10px;
+  }
+
+  .table tbody td:last-child {
+    border-bottom: none;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+}
+
+}
+
     </style>
   </head>
   <body>
@@ -299,35 +396,37 @@ input.form-control:focus {
             </div>
           </form>
 
-          <table class="table table-bordered mt-3">
-            <thead>
-              <tr>
-                <th>Nome</th>
-                <th>Endereço</th>
-                <th>Cidade</th>
-                <th>Telefone</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach($locais as $local)
-                <tr>
-                  <td>{{ $local->nome }}</td>
-                  <td>{{ $local->endereco }}</td>
-                  <td>{{ $local->cidade ?? '-' }}</td>
-                  <td>{{ $local->telefone ?? '-' }}</td>
-                  <td class="action-buttons">
-                    <a href="{{ route('locais-doacao.edit', $local) }}" class="btn btn-green">Editar</a>
-                    <form action="{{ route('locais-doacao.destroy', $local) }}" method="POST" style="display:inline-block;">
-                      @csrf
-                      @method('DELETE')
-                      <button type="submit" class="btn btn-secondary" onclick="return confirm('Deseja excluir este local?')">Excluir</button>
-                    </form>
-                  </td>
-                </tr>
-              @endforeach
-            </tbody>
-          </table>
+<table class="table table-bordered mt-3">
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Endereço</th>
+      <th>Cidade</th>
+      <th>Telefone</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach($locais as $local)
+      <tr>
+        <td data-label="Nome">{{ $local->nome }}</td>
+        <td data-label="Endereço">{{ $local->endereco }}</td>
+        <td data-label="Cidade">{{ $local->cidade ?? '-' }}</td>
+        <td data-label="Telefone">{{ $local->telefone ?? '-' }}</td>
+        <td data-label="Ações" class="action-buttons">
+          <a href="{{ route('locais-doacao.edit', $local) }}" class="btn btn-green">Editar</a>
+          <form action="{{ route('locais-doacao.destroy', $local) }}" method="POST" style="display:inline-block;">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-secondary" onclick="return confirm('Deseja excluir este local?')">Excluir</button>
+          </form>
+        </td>
+      </tr>
+    @endforeach
+  </tbody>
+</table>
+
+
           </div>
         </div>
       </div>

@@ -287,6 +287,102 @@ input.form-control:focus {
         padding-bottom: 20px;
         width: 95%;
       }
+@media (max-width: 768px) {
+  .form-group {
+    flex: 1 1 100%;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .form-group label {
+    width: 100%;
+    margin-bottom: 4px;
+    text-align: left;
+  }
+
+  .text-end.mb-3 {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+    margin-bottom: 20px !important;
+  }
+
+  .row.g-3.mb-4 {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px !important;
+  }
+
+  .row.g-3.mb-4 .col-md-4 {
+    width: 100%;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn,
+  .custom-file-upload {
+    width: 100% !important;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .table thead {
+    display: none; /* Oculta o cabeçalho da tabela no mobile */
+  }
+
+  .table tbody tr {
+    display: block;
+    margin-bottom: 15px;
+    background-color: #2f3b52;
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid #444;
+  }
+
+  .table tbody td {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    border: none;
+    border-bottom: 1px solid #444;
+    font-size: 0.95rem;
+  }
+
+  .table tbody td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #90caf9;
+    flex-basis: 50%;
+    text-align: left;
+    padding-right: 10px;
+  }
+
+  .table tbody td:last-child {
+    border-bottom: none;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+}
+
+}
+
   </style>
     <link rel="manifest" href="{{ asset('manifest.json') }}">
     <meta name="theme-color" content="#0d6efd">
@@ -313,75 +409,80 @@ input.form-control:focus {
 <div class="text-right mb-3">
           
 
-  <div class="text-right mb-3">
-    <button type="submit" form="form-filtro" class="btn btn-green">Filtrar</button>
-    <a href="{{ route('horarios.create') }}" class="btn btn-green">Novo Horário</a>
-      @if(request('filtro_local') || request('filtro_data'))
-          <a href="{{ route('horarios.index') }}" class="btn btn-clean">Limpar</a>
-        @endif
+<form method="GET" action="{{ route('horarios.index') }}" class="mb-4" id="form-filtro">
+  <div class="row">
+    <div class="form-group">
+      <label for="filtro_local">Filtrar por Local</label>
+      <select name="filtro_local" id="filtro_local" class="form-group select">
+        <option value="">Todos os Locais</option>
+        @foreach($locais as $local)
+          <option value="{{ $local->id }}" {{ request('filtro_local') == $local->id ? 'selected' : '' }}>
+            {{ $local->nome }}
+          </option>
+        @endforeach
+      </select>
+    </div>
+    
+    <div class="form-group">
+      <label for="filtro_data">Filtrar por Data</label>
+      <input type="date" name="filtro_data" id="filtro_data" class="form-group select" value="{{ request('filtro_data') }}">
+    </div>
   </div>
 
-  
-  <form method="GET" action="{{ route('horarios.index') }}" class="mb-4" id="form-filtro">
-    <div class="row">
-      <div class="form-group">
-        <label for="filtro_local">Filtrar por Local</label>
-        <select name="filtro_local" id="filtro_local" class="form-group select">
-          <option value="">Todos os Locais</option>
-          @foreach($locais as $local)
-            <option value="{{ $local->id }}" {{ request('filtro_local') == $local->id ? 'selected' : '' }}>
-              {{ $local->nome }}
-            </option>
-          @endforeach
-        </select>
-      </div>
-      
-      <div class="form-group">
-        <label for="filtro_data">Filtrar por Data</label>
-        <input type="date" name="filtro_data" id="filtro_data" class="form-group select" value="{{ request('filtro_data') }}">
-      </div>
-    </div>
-  </form>
+  <div class="text-right mt-3">
+    <button type="submit" class="btn btn-green">Filtrar</button>
+    <a href="{{ route('horarios.create') }}" class="btn btn-green">Novo Horário</a>
+    @if(request('filtro_local') || request('filtro_data'))
+      <a href="{{ route('horarios.index') }}" class="btn btn-clean mt-3">Limpar</a>
+
+    @endif
+  </div>
+</form>
+
 
              
               <div class="table-responsive">
-                <table class="table table-bordered ">
-                  <thead class="thead-light">
-                    <tr>
-                      <th>Horário</th>
-                      <th>Turno</th>
-                      <th>Doutor</th>
-                      <th>Local</th>
-                      <th>Limite</th>
-                      <th>Disponível?</th>
-                      <th>Ações</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @forelse ($horarios as $horario)
-                      <tr>
-                        <td>{{ \Carbon\Carbon::parse($horario->horario)->format('H:i') }}</td>
-                        <td>{{ $horario->turno }}</td>
-                        <td>{{ $horario->nome_doutor ?? '-' }}</td>
-                        <td>{{ $horario->local->nome ?? '-' }}</td>
-                        <td>{{ $horario->limite }}</td>
-                        <td>{{ $horario->disponivel ? 'Sim' : 'Não' }}</td>
-                        <td>
-                          <a href="{{ route('horarios.edit', $horario->id) }}" class="btn btn-sm btn-primary">Editar</a>
-                          <form action="{{ route('horarios.destroy', $horario->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Tem certeza que deseja remover este horário?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-secondary">Remover</button>
-                          </form>
-                        </td>
-                      </tr>
-                    @empty
-                      <tr>
-                        <td colspan="7" class="text-center">Nenhum horário cadastrado.</td>
-                      </tr>
-                    @endforelse
-                  </tbody>
-                </table>
+<table class="table table-bordered">
+  <thead class="thead-light">
+    <tr>
+      <th>Horário</th>
+      <th>Turno</th>
+      <th>Doutor</th>
+      <th>Local</th>
+      <th>Limite</th>
+      <th>Disponível?</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    @forelse ($horarios as $horario)
+      <tr>
+        <td data-label="Horário">{{ \Carbon\Carbon::parse($horario->horario)->format('H:i') }}</td>
+        <td data-label="Turno">{{ $horario->turno }}</td>
+        <td data-label="Doutor">{{ $horario->nome_doutor ?? '-' }}</td>
+        <td data-label="Local">{{ $horario->local->nome ?? '-' }}</td>
+        <td data-label="Limite">{{ $horario->limite }}</td>
+        <td data-label="Disponível?">{{ $horario->disponivel ? 'Sim' : 'Não' }}</td>
+        <td data-label="Ações">
+  <div class="d-flex flex-column flex-md-row gap-2 align-items-center">
+    <a href="{{ route('horarios.edit', $horario->id) }}" class="btn btn-sm btn-primary mb-1 mb-md-0">Editar</a>
+    <form action="{{ route('horarios.destroy', $horario->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja remover este horário?');">
+      @csrf
+      @method('DELETE')
+      <button type="submit" class="btn btn-secondary btn-sm">Remover</button>
+    </form>
+  </div>
+</td>
+
+      </tr>
+    @empty
+      <tr>
+        <td colspan="7" class="text-center">Nenhum horário cadastrado.</td>
+      </tr>
+    @endforelse
+  </tbody>
+</table>
+
               </div>
             </div>
           </div>

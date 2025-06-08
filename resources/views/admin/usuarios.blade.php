@@ -269,7 +269,69 @@ input.form-control:focus {
         padding-bottom: 20px;
         width: 95%;
       }
-    </style>
+    
+@media (max-width: 768px) {
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .form-group {
+    width: 100% !important;
+  }
+
+  .custom-file-upload, .custom-file-upload-two {
+    width: 100% !important;
+    margin-top: 8px;
+  }
+
+  .form-photo {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  table {
+    font-size: 0.9rem;
+  }
+
+  .table thead {
+    display: none;
+  }
+
+  .table tbody td {
+    display: block;
+    width: 100%;
+  }
+
+  .table tbody tr {
+    margin-bottom: 1rem;
+    display: block;
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+  }
+
+  .action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .form-inline.flex-wrap input.form-control {
+    width: 100% !important;
+    margin-bottom: 0.5rem;
+  }
+
+  .form-inline.flex-wrap .btn {
+    width: 100% !important;
+  }
+}
+</style>
 
     @include('admin.css')
     <link rel="manifest" href="{{ asset('manifest.json') }}">
@@ -297,11 +359,12 @@ input.form-control:focus {
       <div class="edit-info-title">Lista de Doadores</div>
 
         
-      <form method="GET" action="{{ url('/usuarios') }}" class="form-inline mb-4 d-flex justify-content-start">
-        <input type="text" name="q" class="form-control mr-2 w-50" placeholder="Buscar por nome ou telefone..." value="{{ request('q') }}">
-        <button type="submit" class="custom-file-upload"> Buscar</button>
-        <a href="{{ url('/usuarios') }}" class="custom-file-upload">Limpar</a>
-      </form>
+      <form method="GET" action="{{ url('/usuarios') }}" class="form-inline mb-4 d-flex flex-wrap justify-content-start gap-2">
+  <input type="text" name="q" class="form-control mr-2 flex-grow-1 min-w-200" placeholder="Buscar por nome ou telefone..." value="{{ request('q') }}">
+  <button type="submit" class="custom-file-upload">Buscar</button>
+  <a href="{{ url('/usuarios') }}" class="custom-file-upload">Limpar</a>
+</form>
+
       
       
 
@@ -334,10 +397,15 @@ input.form-control:focus {
               @endif
             </td>
             <td class="action-buttons">
-              <a href="{{ url('/usuarios/'.$user->id.'/editar') }}" class="btn btn-primary">Editar</a>
-              <a href="{{ url('/historico-medico/'.$user->id) }}" class="btn btn-sm btn-info mb-1">Ver Histórico</a>
-              <a href="{{ url('/usuarios/'.$user->id.'/excluir') }}" class="btn btn-secondary" onclick="return confirm('Tem certeza que deseja excluir este usuário?')">Excluir</a>
+              <div class="d-block d-lg-flex">
+                <a href="{{ url('/usuarios/'.$user->id.'/editar') }}" class="btn btn-primary btn-sm d-block d-lg-inline mb-2 mb-lg-0 mr-lg-2">Editar</a>
+                <a href="{{ url('/historico-medico/'.$user->id) }}" class="btn btn-info btn-sm d-block d-lg-inline mb-2 mb-lg-0 mr-lg-2">Ver Histórico</a>
+                <a href="{{ url('/usuarios/'.$user->id.'/excluir') }}" class="btn btn-secondary btn-sm d-block d-lg-inline mb-0" onclick="return confirm('Tem certeza que deseja excluir este usuário?')">Excluir</a>
+              </div>
             </td>
+
+
+
           </tr>
           @endforeach
         </tbody>

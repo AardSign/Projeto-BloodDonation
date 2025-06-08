@@ -215,11 +215,45 @@
         padding-bottom: 20px;
         width: 95%;
       }
+
+      @media (max-width: 768px) {
+        .form-group {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .form-group label,
+        .form-photo label {
+          width: 100% !important;
+          margin-bottom: 6px;
+        }
+
+        .form-photo {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .form-photo img {
+          width: 80px;
+          height: 80px;
+        }
+
+        .form-actions {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .form-actions .btn {
+          width: 100%;
+        }
+      }
+
     </style>
 
     @include('admin.css')
     <link rel="manifest" href="{{ asset('manifest.json') }}">
     <meta name="theme-color" content="#0d6efd">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/icons/icon-192.png" type="image/png">
   </head>
   <body>

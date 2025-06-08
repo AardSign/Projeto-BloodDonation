@@ -159,6 +159,42 @@
         padding-bottom: 20px;
         width: 95%;
       }
+
+      @media (max-width: 768px) {
+  .table thead {
+    display: none;
+  }
+
+  .table tbody tr {
+    display: block;
+    margin-bottom: 15px;
+    background-color: #2f3b52;
+    border-radius: 8px;
+    padding: 10px;
+  }
+
+  .table tbody td {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    border: none;
+    border-bottom: 1px solid #444;
+    font-size: 0.9rem;
+  }
+
+  .table tbody td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #90caf9;
+    flex-basis: 45%;
+    text-align: left;
+  }
+
+  .table tbody td:last-child {
+    border-bottom: none;
+  }
+}
+
     </style>
     
     @include('admin.css')
@@ -216,30 +252,31 @@
               </tr>
             </thead>
             <tbody>
-              @forelse($appointments as $agendamento)
-                <tr>
-                  <td>{{ \Carbon\Carbon::parse($agendamento->date)->format('d/m/Y') }}</td>
-                  <td>{{ \Carbon\Carbon::parse($agendamento->time)->format('H:i') }}</td>
-                  <td>{{ $agendamento->local->nome ?? '-' }}</td>
-                  <td>{{ $agendamento->status }}</td>
-                  <td>
-                    @if($agendamento->status === 'Marcado')
-                      <a href="{{ url('/agendamento/'.$agendamento->id.'/remarcar') }}" class="custom-file-upload">Remarcar</a>
-                      <form action="{{ url('/agendamento/'.$agendamento->id.'/cancelar') }}" method="POST" style="display:inline;">
-                        @csrf
-                        <a href="{{ url('/agendamento/'.$agendamento->id.'/cancelar') }}" class="btn btn-danger-custom">Cancelar</a>
-                      </form>
-                    @else
-                      <span class="text-muted">-</span>
-                    @endif
-                  </td>
-                </tr>
-              @empty
-                <tr>
-                  <td colspan="5" class="text-center">Nenhum agendamento encontrado.</td>
-                </tr>
-              @endforelse
-            </tbody>
+  @forelse($appointments as $agendamento)
+    <tr>
+      <td data-label="Data">{{ \Carbon\Carbon::parse($agendamento->date)->format('d/m/Y') }}</td>
+      <td data-label="Hora">{{ \Carbon\Carbon::parse($agendamento->time)->format('H:i') }}</td>
+      <td data-label="Local">{{ $agendamento->local->nome ?? '-' }}</td>
+      <td data-label="Status">{{ $agendamento->status }}</td>
+      <td data-label="Ações">
+        @if($agendamento->status === 'Marcado')
+          <a href="{{ url('/agendamento/'.$agendamento->id.'/remarcar') }}" class="custom-file-upload">Remarcar</a>
+          <form action="{{ url('/agendamento/'.$agendamento->id.'/cancelar') }}" method="POST" style="display:inline;">
+            @csrf
+            <a href="{{ url('/agendamento/'.$agendamento->id.'/cancelar') }}" class="btn btn-danger-custom">Cancelar</a>
+          </form>
+        @else
+          <span class="text-muted">-</span>
+        @endif
+      </td>
+    </tr>
+  @empty
+    <tr>
+      <td colspan="5" class="text-center">Nenhum agendamento encontrado.</td>
+    </tr>
+  @endforelse
+</tbody>
+
           </table>
           </div>
         </div>

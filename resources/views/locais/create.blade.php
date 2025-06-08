@@ -268,6 +268,30 @@ input.form-control:focus {
         padding-bottom: 20px;
         width: 95%;
       }
+
+      @media (max-width: 768px) {
+  .form-group {
+    flex: 1 1 100%;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .form-group label {
+    width: 100%;
+    margin-bottom: 4px;
+    text-align: left;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn {
+    width: 100% !important;
+  }
+}
+
     </style>
   </head>
   <body>

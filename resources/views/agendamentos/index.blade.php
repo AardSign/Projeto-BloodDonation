@@ -282,23 +282,127 @@ input.form-control:focus {
         padding-bottom: 20px;
         width: 95%;
       }
+
+@media (max-width: 768px) {
+  .form-group {
+    flex: 1 1 100%;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .form-group label {
+    width: 100%;
+    margin-bottom: 4px;
+    text-align: left;
+  }
+
+  .text-end.mb-3 {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+    margin-bottom: 20px !important;
+  }
+
+  .row.g-3.mb-4 {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px !important;
+  }
+
+  .row.g-3.mb-4 .col-md-4 {
+    width: 100%;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn,
+  .custom-file-upload {
+    width: 100% !important;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .table thead {
+    display: none; /* Oculta o cabeçalho da tabela no mobile */
+  }
+
+  .table tbody tr {
+    display: block;
+    margin-bottom: 15px;
+    background-color: #2f3b52;
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid #444;
+  }
+
+  .table tbody td {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    border: none;
+    border-bottom: 1px solid #444;
+    font-size: 0.95rem;
+  }
+
+  .table tbody td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #90caf9;
+    flex-basis: 50%;
+    text-align: left;
+    padding-right: 10px;
+  }
+
+  .table tbody td:last-child {
+    border-bottom: none;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+
+
+
+}
+
     </style>
     <link rel="manifest" href="{{ asset('manifest.json') }}">
     <meta name="theme-color" content="#0d6efd">
     <link rel="icon" href="/icons/icon-192.png" type="image/png">
   </head>
-  <body>
+<body>
+  <div class="container-scroller">
+    @include('admin.sidebar')
+    @include('admin.navbar')
 
-    <div class="container-scroller">
-      @include('admin.sidebar')
-      @include('admin.navbar')
-
-      <div class="container-fluid ">
-        <div class="container"align="center" >
-
-          <div class="card-custom">
-
-      <div class="edit-info-title">Lista de Doadores</div>
+    <div class="container-fluid">
+      <div class="container" align="center">
+        <div class="card-custom">
+          <div class="edit-info-title">Lista de Agendamentos</div>
 
           @if(session('success'))
             <div class="alert alert-success">
@@ -307,51 +411,60 @@ input.form-control:focus {
             </div>
           @endif
 
-          
-
-          <form method="GET" action="{{ url('/agendamentos') }}" class="form-inline mb-4 d-flex justify-content-start">
-            <input type="text" name="q" class="form-control mr-2 w-50" placeholder="Buscar por doador, data, hora, status ou local..." value="{{ request('q') }}">
-            <button type="submit" class="custom-file-upload">Buscar</button>
-             <a href="{{ url('/agendar') }}" class="btn btn-primary">Novo Agendamento</a>
+          <form method="GET" action="{{ url('/agendamentos') }}"
+                class="form-inline mb-4 d-flex flex-column flex-md-row justify-content-start align-items-stretch align-items-md-center gap-2">
+            <input type="text" name="q" class="form-control w-100 w-md-50 mr-md-2" placeholder="Buscar por doador, data, hora, status ou local..." value="{{ request('q') }}">
+            <div class="d-flex flex-column flex-md-row gap-2">
+              <button type="submit" class="custom-file-upload w-100 w-md-auto">Buscar</button>
+              <a href="{{ url('/agendar') }}" class="btn btn-primary w-100 w-md-auto">Novo Agendamento</a>
+            </div>
           </form>
 
-          <table class="table table-bordered mt-3">
-            <thead>
-              <tr>
-                <th>Doador</th>
-                <th>Data</th>
-                <th>Hora</th>
-                <th>Local</th>
-                <th>Status</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach($appointments as $agendamento)
+          <div class="table-responsive">
+            <table class="table table-bordered mt-3">
+              <thead class="text-center">
                 <tr>
-                  <td>{{ $agendamento->user->name ?? 'Usuário removido' }}</td>
-                  <td>{{ \Carbon\Carbon::parse($agendamento->date)->format('d/m/Y') }}</td>
-                  <td>{{ \Carbon\Carbon::parse($agendamento->time)->format('H:i') }}</td>
-                  <td>{{ $agendamento->local->nome ?? '-' }}</td>
-                  <td>{{ $agendamento->status }}</td>
-                  <td>
-                    @if($agendamento->status === 'Marcado')
-                      <a href="{{ url('/agendamento/'.$agendamento->id.'/editar') }}" class="custom-file-upload-two">Editar</a>
-                      <a href="{{ url('/agendamento/'.$agendamento->id.'/concluir') }}" class="btn btn-primary-one">Concluir</a>
-                      <a href="{{ url('/agendamento/'.$agendamento->id.'/cancelar') }}" class="btn btn-secondary">Cancelar</a>
-                    @else
-                      <span class="text-muted">Ações indisponíveis</span>
-                    @endif
-                  </td>
+                  <th>Doador</th>
+                  <th>Data</th>
+                  <th>Hora</th>
+                  <th>Local</th>
+                  <th>Status</th>
+                  <th>Ações</th>
                 </tr>
-              @endforeach
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                @foreach($appointments as $agendamento)
+                  <tr class="text-center">
+                    <td>{{ $agendamento->user->name ?? 'Usuário removido' }}</td>
+                    <td>{{ \Carbon\Carbon::parse($agendamento->date)->format('d/m/Y') }}</td>
+                    <td>{{ \Carbon\Carbon::parse($agendamento->time)->format('H:i') }}</td>
+                    <td>{{ $agendamento->local->nome ?? '-' }}</td>
+                    <td>{{ $agendamento->status }}</td>
+                    <td>
+                      @if($agendamento->status === 'Marcado')
+             <td class="action-buttons">
+  <a href="{{ url('/agendamento/'.$agendamento->id.'/editar') }}" class="custom-file-upload-two" style="width: 100%;">Editar</a>
+  <a href="{{ url('/agendamento/'.$agendamento->id.'/concluir') }}" class="btn btn-primary-one">Concluir</a>
+  <a href="{{ url('/agendamento/'.$agendamento->id.'/cancelar') }}" class="btn btn-secondary">Cancelar</a>
+</td>
+
+
+                      @else
+                        <span class="text-muted">Ações indisponíveis</span>
+                      @endif
+                    </td>
+                  </tr>
+                @endforeach
+              </tbody>
+            </table>
           </div>
+
         </div>
       </div>
     </div>
+  </div>
 
-    @include('admin.script')
-  </body>
+  @include('admin.script')
+</body>
+
 </html>

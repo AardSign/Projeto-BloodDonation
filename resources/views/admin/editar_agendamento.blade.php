@@ -12,35 +12,37 @@
       @include('admin.navbar')
 
       <div class="container-fluid page-body-wrapper">
-        <div class="container" style="padding-top:100px;">
+        <div class="container py-5">
 
-          <h2>Editar Agendamento</h2>
+          <h2 class="mb-4">Editar Agendamento</h2>
 
           <form action="{{ url('/agendamento/'.$agendamento->id.'/atualizar') }}" method="POST">
             @csrf
             @method('PUT')
 
-            <div style="padding:15px;">
-              <label>Data</label>
-              <input type="date" name="date" value="{{ $agendamento->date }}" required>
+            <div class="row mb-3">
+              <div class="col-12 col-md-6 mb-3">
+                <label>Data</label>
+                <input type="date" class="form-control" name="date" value="{{ $agendamento->date }}" required>
+              </div>
+
+              <div class="col-12 col-md-6 mb-3">
+                <label>Hora</label>
+                <input type="time" class="form-control" name="time" value="{{ $agendamento->time }}" required>
+              </div>
             </div>
 
-            <div style="padding:15px;">
-              <label>Hora</label>
-              <input type="time" name="time" value="{{ $agendamento->time }}" required>
-            </div>
-
-            <div style="padding:15px;">
+            <div class="mb-4">
               <label>Status</label>
-              <select name="status" required>
+              <select name="status" class="form-control" required>
                 @foreach(['Agendado', 'Concluído', 'Cancelado'] as $status)
                   <option value="{{ $status }}" @if($agendamento->status == $status) selected @endif>{{ $status }}</option>
                 @endforeach
               </select>
             </div>
 
-            <div style="padding:15px;">
-              <input type="submit" class="btn btn-primary" value="Salvar alterações">
+            <div class="d-flex flex-column flex-md-row gap-2">
+              <button type="submit" class="btn btn-primary">Salvar alterações</button>
               <a href="{{ url('/agendamentos') }}" class="btn btn-secondary">Voltar</a>
             </div>
           </form>
@@ -50,6 +52,5 @@
     </div>
 
     @include('admin.script')
-    
   </body>
 </html>

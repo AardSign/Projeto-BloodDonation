@@ -6,11 +6,11 @@
             <a class="navbar-brand brand-logo-mini" href="index.html"> <img src="admin/assets/images/logo-mini.png" alt="logo" /></a>
           </div>
           <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
-           {{--  <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+             <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
               <span class="mdi mdi-menu"></span>
-            </button> --}}
-            @if(Auth::user()->usertype == '1')
-            <ul class="navbar-nav w-100">
+            </button>
+           @if(Auth::user()->usertype == '1')
+            <ul class="navbar-nav w-100 d-none d-lg-block">
               <li class="nav-item w-100">
                 <form action="{{ url('/buscar') }}" method="GET" class="form-inline" style="margin-left: auto;">
                   <input class="form-control mr-sm-2" type="search" name="q" placeholder="Buscar doador..." aria-label="Search" required>
@@ -18,7 +18,8 @@
               </li>
             </ul>
             @endif
-            <ul class="navbar-nav navbar-nav-right">
+
+            <ul class="navbar-nav navbar-nav-right ml-auto d-flex align-items-center">
               <li class="nav-item dropdown d-none d-lg-block">
                 <!--  -->
               </li>
@@ -56,9 +57,7 @@
 
               </x-app-layout>
             </ul>
-            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-              <span class="mdi mdi-format-line-spacing"></span>
-            </button>
+           
           </div>
         </nav>
 
@@ -113,4 +112,6 @@
           overflow: visible !important;
           text-overflow: unset;
         }
+
+        
       </style>

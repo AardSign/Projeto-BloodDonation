@@ -15,13 +15,18 @@
             background-color: #3c4b68; /* Pequeno fundo claro */
         }
 
-        .sidebar {
-            position: fixed;
-            width: 245px;
-            height: 100%;
-            background-color: #2f3b52;
-            color: white;
+        ..sidebar {
+          position: fixed;
+          width: 245px;
+          height: 100%;
+          background-color: #2f3b52;
+          color: white;
+          top: 0;
+          left: 0;
+          z-index: 1000;
+          transition: transform 0.3s ease;
         }
+
 
         .sidebar .nav-item {
             margin: 10px 0;
@@ -152,13 +157,51 @@
             background-color: white;
             color: #333; /* Mudando a cor para melhorar a visibilidade */
         }
+         @media (max-width: 768px) {
+          .sidebar {
+            transform: translateX(-100%);
+          }
+
+          .sidebar.active {
+            transform: translateX(0);
+          }
+
+          .menu-toggle {
+            display: block;
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background-color: #2f3b52;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            z-index: 1100;
+            border-radius: 4px;
+          }
+        }
+
+        @media (min-width: 769px) {
+          .menu-toggle {
+            display: none;
+          }
+        }
     </style>
     <link rel="manifest" href="{{ asset('manifest.json') }}">
     <meta name="theme-color" content="#0d6efd">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/icons/icon-192.png" type="image/png">
 </head>
 
 <body>
+<button class="menu-toggle" onclick="toggleSidebar()">☰ Menu</button>
+
+<script>
+  function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.classList.toggle('active');
+  }
+</script>
+
 
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">

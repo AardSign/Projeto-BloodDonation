@@ -203,6 +203,30 @@
         padding-bottom: 20px;
         width: 95%;
       }
+
+      @media (max-width: 768px) {
+  .form-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .form-group label {
+    width: 100%;
+    margin-bottom: 6px;
+    text-align: left;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .btn {
+    width: 100% !important;
+  }
+}
+
     </style>
 
     @include('admin.css')

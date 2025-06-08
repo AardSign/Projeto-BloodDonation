@@ -268,6 +268,64 @@ input.form-control:focus {
         padding-bottom: 20px;
         width: 95%;
       }
+
+      @media (max-width: 768px) {
+  .form-group {
+    flex: 1 1 100%;
+    min-width: unset;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .form-group label {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+
+  .form-actions,
+  .text-right.mt-4 {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .form-actions button,
+  .form-actions a,
+  .text-right.mt-4 button,
+  .text-right.mt-4 a {
+    width: 100% !important;
+    max-width: 100%;
+  }
+
+  .container {
+    padding: 20px 10px;
+    width: 100%;
+  }
+
+  .card-custom {
+    padding: 15px;
+  }
+
+  .container-fluid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* altura total da tela */
+    padding: 0 10px;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 500px;
+    padding: 20px 0;
+  }
+
+  .card-custom {
+    width: 100%;
+    padding: 20px;
+  }
+}
+
   </style>
     <link rel="manifest" href="{{ asset('manifest.json') }}">
     <meta name="theme-color" content="#0d6efd">

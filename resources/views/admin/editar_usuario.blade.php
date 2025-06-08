@@ -26,10 +26,13 @@
       }
 
       .form-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
+    padding: 30px;
+    
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    max-width: 600px;
+    margin: auto;
+  }
 
       .form-group {
         flex: 1 1 45%;
@@ -213,6 +216,29 @@
         padding-bottom: 20px;
         width: 95%;
       }
+
+      @media (max-width: 768px) {
+    .form-container {
+      padding: 15px;
+      max-width: 100%;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100% !important;
+    }
+
+    .btn {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  }
     </style>
     @include('admin.css')
     <link rel="manifest" href="{{ asset('manifest.json') }}">
@@ -225,7 +251,7 @@
       @include('admin.navbar')
 
   <div class="container-fluid">
-    <div class="container" align="center">
+    <div class="container w-100" style="max-width: 100%;" align="center">
       @if(session()->has('message'))
         <div class="alert alert-success">
           <button type="button" class="close" data-dismiss="alert">&times;</button>

@@ -268,6 +268,43 @@ input.form-control:focus {
         padding-bottom: 20px;
         width: 95%;
       }
+
+            @media (max-width: 768px) {
+        .form-group {
+          flex: 1 1 100%;
+          min-width: unset;
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .form-group label {
+          width: 100%;
+          margin-bottom: 6px;
+        }
+
+        .form-actions {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .container-fluid {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          min-height: 100vh;
+          padding: 20px 10px;
+        }
+
+        .container {
+          width: 100%;
+          max-width: 500px;
+          padding: 0;
+        }
+
+        .card-custom {
+          width: 100%;
+        }
+      }
   </style>
     <link rel="manifest" href="{{ asset('manifest.json') }}">
     <meta name="theme-color" content="#0d6efd">

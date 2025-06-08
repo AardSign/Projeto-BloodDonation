@@ -214,6 +214,49 @@
         padding-bottom: 20px;
         width: 95%;
       }
+
+      @media (max-width: 768px) {
+        .form-container {
+          flex-direction: column;
+        }
+
+        .form-group {
+          flex: 1 1 100% !important;
+          min-width: 100% !important;
+          display: block;
+        }
+
+        .form-group label,
+        .form-photo label {
+          width: 100% !important;
+          display: block;
+          margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group select {
+          width: 100% !important;
+        }
+
+        .form-photo {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .form-photo img {
+          width: 100px;
+          height: 100px;
+        }
+
+        .form-actions {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .form-actions .btn-primary,
+        .form-actions .btn-secondary {
+          width: 100% !important;
+        }
     </style>
 
     @include('admin.css')
